@@ -1,0 +1,9 @@
+{% load accounts_tags %}
+
+<img src="{{user.email|gravatar_url}}" class="img-thumbnail img-fluid" style="width: 100%;">
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+      <a href="{% url 'accounts:change_password' %}">Chage Password</a>
+    </li>
+    <li class="list-group-item"><a href="{% url 'accounts:my_profile' %}">Update Profile</a></li>
+  </ul>

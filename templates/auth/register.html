@@ -1,0 +1,67 @@
+{% extends "auth_base.html" %}
+
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}
+    {{title}}
+{% endblock title %}
+
+{% block content %}
+    <section class="bg-light register">
+  <div class="container">
+<div class="row justify-content-center text-center">
+  <div class="col-10 col-lg-7 col-md-9 shadow p-6 bg-white">
+   <div class="col-lg-12 col-md-12 p-0">
+        <div class="mb-6">
+           <h2 class="font-w-6">Create New Customer Account</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla augue nec est tristique auctor. </p>
+        </div>
+        </div>
+      <div class="col-lg-12 col-md-12 ml-auto mr-auto p-0">
+        <div class="register-form text-center">
+          <form method="POST" action="{% url 'accounts:register' %}" novalidate>
+            {% csrf_token %}
+            <div class="row">
+              <div class="col-md-6">
+                {{signup_form.first_name|as_crispy_field}}
+              </div>
+              <div class="col-md-6">
+                {{signup_form.last_name|as_crispy_field}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                {{signup_form.username|as_crispy_field}}
+              </div>
+              <div class="col-md-4">
+                {{signup_form.email|as_crispy_field}}
+              </div>
+              <div class="col-md-4">
+                {{signup_form.phone_number|as_crispy_field}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                {{signup_form.password1|as_crispy_field}}
+              </div>
+              <div class="col-md-6">
+                {{signup_form.password2|as_crispy_field}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <input type="submit" class="btn btn-primary" value="Create Account">
+                <span class="mt-4 d-block">Have An Account ? <a href="{% url 'accounts:login' %}">Sign In!</a></span>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}
