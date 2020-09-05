@@ -3,7 +3,7 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <section class="bg-light">
+<section class="dashboard-page bg-white">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-sm-12 col-md-4">
@@ -14,8 +14,9 @@
         <div class="shadow p-6 login bg-white">
          <div class="store-name">flipmarto</div>
           <h4 class="text-left mb-3 font-w-5">Chanage Profile</h4>
-          <form method="POST" action="{% url 'accounts:change_password' %}" novalidate>
+          <form method="POST" action="{% url 'accounts:my_profile' %}" novalidate>
             {% csrf_token %}
+            {{user_form|crispy}}
             {{profile_form|crispy}}
             <input type="submit" class="btn btn-primary btn-block" value="Change Password">
 

@@ -1,1 +1,31 @@
 {% extends 'base.html' %}
+
+
+
+{% block title %}
+    {{title}}
+{% endblock title %}
+
+{% block content %}
+    {% include './new_product.html' %}
+
+    {% include './first_lead_product.html' %}
+
+    {% include './second_lead_product.html' %}
+
+    {% include './third_lead_product.html' %}
+
+
+{% endblock content %}
+
+
+{% block script %}
+   <script>
+        $(document).ready(function() {
+             $('.owl-carousel').find('.owl-nav').removeClass('disabled');
+                $('.owl-carousel').on('changed.owl.carousel', function(event) {
+                    $(this).find('.owl-nav').removeClass('disabled');
+                });
+        });
+   </script>
+{% endblock script %}

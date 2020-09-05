@@ -33,7 +33,7 @@ class LoginView(LoginView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'GasBooking'
+        context['title'] = 'Login'
         return context
 
     def render_to_response(self, context):

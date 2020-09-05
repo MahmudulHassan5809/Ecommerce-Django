@@ -9,7 +9,7 @@ Text Domain:  Flipmarto
     Table of Contents
 
   1. Predefined Variables
-  2. Preloader  
+  2. Preloader
   3. FullScreen
   4. Counter
   5. Owl carousel
@@ -28,7 +28,7 @@ Text Domain:  Flipmarto
   18. Wow Animation
   19. Particles
   20. Window load and functions
-  
+
 
 ------------------------ */
 (function($) {
@@ -84,9 +84,9 @@ $('.banner-slider').each( function() {
       loop : true,
       dots : $carousel.data("dots"),
       nav : $carousel.data("nav"),
-      margin : $carousel.data("margin"), 
+      margin : $carousel.data("margin"),
       animateIn: 'fadeIn',
-      animateOut: 'fadeOut',   
+      animateOut: 'fadeOut',
       autoplay : true,
       autoplayTimeout : 6000,
       navText : [ '<span class="las la-arrow-left"><span>', '<span class="las la-arrow-right"></span>' ],
@@ -103,13 +103,14 @@ $('.owl-carousel').each( function() {
       items : $carousel.data("items"),
       slideBy : $carousel.data("slideby"),
       center : $carousel.data("center"),
+      nav: true,
       loop : true,
       margin : $carousel.data("margin"),
       dots : $carousel.data("dots"),
-      nav : $carousel.data("nav"),      
+      nav : $carousel.data("nav"),
       autoplay : $carousel.data("autoplay"),
       autoplayTimeout : $carousel.data("autoplay-timeout"),
-      navText : [ '<span class="la la-angle-left"><span>', '<span class="la la-angle-right"></span>' ],
+      navText : [ '<span class="las la-angle-left"><span>', '<span class="la la-angle-right"></span>' ],
       responsive: {
         0:{items: $carousel.data('xs-items') ? $carousel.data('xs-items') : 1},
         576:{items: $carousel.data('sm-items')},
@@ -133,24 +134,24 @@ Cloude zoom
 	var image = $('#product_img');
 	//var zoomConfig = {};
 	var zoomActive = false;
-	
+
     zoomActive = !zoomActive;
 	if(zoomActive) {
 		if ($(image).length > 0){
 			$(image).elevateZoom({
 				cursor: "crosshair",
-				easing : true, 
+				easing : true,
 				gallery:'pr_item_gallery',
 				zoomType: "inner",
 				galleryActiveClass: "active"
-			}); 
+			});
 		}
 	}
 	else {
 		$.removeData(image, 'elevateZoom');//remove zoom instance from image
 		$('.zoomContainer:last-child').remove();// remove zoom container from DOM
 	}
-	
+
 	$.magnificPopup.defaults.callbacks = {
     open: function() {
       $('body').addClass('zoom_image');
@@ -164,7 +165,7 @@ Cloude zoom
       	}, 100);
       }
   	};
-	
+
 	// Set up gallery on click
 	var galleryZoom = $('#pr_item_gallery');
 	galleryZoom.magnificPopup({
@@ -179,7 +180,7 @@ Cloude zoom
 			}
 		}
 	});
-	
+
 	// Zoom image when click on icon
 	$('.product_img_zoom').on('click', function(){
 		var atual = $('#pr_item_gallery a').attr('data-zoom-image');
@@ -190,7 +191,7 @@ Cloude zoom
 			}
 		});
 	});
-	
+
 	$('.plus').on('click', function() {
 		if ($(this).prev().val()) {
 			$(this).prev().val(+$(this).prev().val() + 1);
@@ -222,7 +223,7 @@ Cloude zoom
 
 /*------------------------------------
   HT Dropdown
---------------------------------------*/ 
+--------------------------------------*/
 $('.custome_select').each( function() {
 $('.custome_select').msDropdown();
 });
@@ -269,10 +270,10 @@ $('.custome_select').msDropdown();
   HT Text Color, Background Color And Image
 ---------------------------------------------*/
     $('[data-bg-color]').each(function(index, el) {
-     $(el).css('background-color', $(el).data('bg-color'));  
+     $(el).css('background-color', $(el).data('bg-color'));
     });
     $('[data-text-color]').each(function(index, el) {
-     $(el).css('color', $(el).data('text-color'));  
+     $(el).css('color', $(el).data('text-color'));
     });
     $('[data-bg-img]').each(function() {
      $(this).css('background-image', 'url(' + $(this).data("bg-img") + ')');
@@ -300,13 +301,13 @@ $('.custome_select').msDropdown();
             {
             // data = JSON object that contact.php returns
 
-            // we recieve the type of the message: success x danger and apply it to the 
+            // we recieve the type of the message: success x danger and apply it to the
             var messageAlert = 'alert-' + data.type;
             var messageText = data.message;
 
             // let's compose Bootstrap alert box HTML
             var alertBox = '<div class="alert ' + messageAlert + ' alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' + messageText + '</div>';
-            
+
             // If we have messageAlert and messageText
             if (messageAlert && messageText) {
                 // inject the alert to .messages div in our form
@@ -318,7 +319,7 @@ $('.custome_select').msDropdown();
         });
         return false;
     }
- })    
+ })
 
 
 
@@ -336,7 +337,7 @@ $('.custome_select').msDropdown();
     e.preventDefault();
     var numProduct = Number($(this).prev().val());
     $(this).prev().val(numProduct + 1);
-  }); 
+  });
 
 
 /*------------------------------------
@@ -350,9 +351,9 @@ $('.custome_select').msDropdown();
     slideMargin:0,
     speed:600,
     autoplay: true,
-  });  
-  
-  
+  });
+
+
 
 
   $('[data-toggle="tooltip"]').tooltip();
@@ -362,12 +363,12 @@ $('.custome_select').msDropdown();
 /*===================================*
 	06. SEARCH JS
 	*===================================*/
-    
+
 	$(".close-search").on("click", function() {
 		$(".search_wrap,.search_overlay").removeClass('open');
 		$("body").removeClass('search_open');
 	});
-	
+
 	var removeClass = true;
 	$(".search_wrap").after('<div class="search_overlay"></div>');
 	$(".search_trigger").on('click', function () {
@@ -417,5 +418,5 @@ $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 
 
 
-	
+
 })(jQuery);

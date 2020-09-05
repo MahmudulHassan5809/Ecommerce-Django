@@ -1,0 +1,41 @@
+<section class="pb-0 pt-5">
+                    <div class="container">
+                        <div class="product-block product-block-div pb-1">
+                            <div class="row justify-content-left text-left row_title">
+                                <h2 class="mb-0 font-w-5 bg-yellow text-dark">New Products</h2>
+                            </div>
+                            <div class="row pl-3">
+                                <div class="owl-carousel no-pb owl-2" data-dots="false" data-nav="true" data-items="{{today_products.count}}" data-md-items="2" data-sm-items="1">
+
+                                    {% for product in today_products %}
+                                    <div class="item">
+                                        <div class="col-lg-12 col-md-12 pt-5">
+                                            <div class="media align-items-center mb-4">
+                                                {% with product.product_images.all|first as image %}
+                                                <a class="d-block mr-3" href="product-left-image.html"> <img class="border" src="{{image.image.url}}" alt="Product" width="100"> </a>
+                                                {% endwith %}
+                                                <div class="media-body">
+                                                    <div class="product-title"><a class="link-title" href="#">{{product.title}}</a> </div>
+                                                    {% if product.discount_price %}
+                                                        <span class="product-price text-dark">
+                                                            <del class="text-muted">${{product.price}}</del> ${{product.discount_price}}
+                                                        </span>
+                                                    {% else %}
+                                                        <span class="product-price text-dark">
+                                                            ${{product.price}}
+                                                        </span>
+                                                    {% endif %}
+
+                                                    <div class="star-rating"><i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i> </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>

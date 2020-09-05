@@ -1,9 +1,12 @@
 {% load accounts_tags %}
-
-<img src="{{user.email|gravatar_url}}" class="img-thumbnail img-fluid" style="width: 100%;">
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">
-      <a href="{% url 'accounts:change_password' %}">Chage Password</a>
+<div class="dashboard_menu">
+<ul class="nav nav-tabs border-0 flex-column">
+    <li class="nav-item">
+      <a href="{% url 'accounts:user_dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'user_dashboard' %} active {% endif %}">Dashboard</a>
     </li>
-    <li class="list-group-item"><a href="{% url 'accounts:my_profile' %}">Update Profile</a></li>
+    <li class="nav-item">
+      <a href="{% url 'accounts:change_password' %}" class="nav-link {% if request.resolver_match.url_name == 'change_password' %} active {% endif %}">Change Password</a>
+    </li>
+    <li class="nav-item"><a href="{% url 'accounts:my_profile' %}" class="nav-link {% if request.resolver_match.url_name == 'my_profile' %} active {% endif %}">Update Profile</a></li>
   </ul>
+</div>
