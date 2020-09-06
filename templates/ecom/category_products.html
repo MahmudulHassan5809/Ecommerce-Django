@@ -1,0 +1,175 @@
+{% extends 'auth_base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}
+    {{title}}
+{% endblock title %}
+
+
+{% block content %}
+    <section class="bg-white">
+        <div class="container">
+           <div class="row">
+                <div class="col-lg-9 col-md-12 order-lg-1">
+                    <div class="row mb-4 align-items-center">
+                      <div class="col-md-5 mb-3 mb-md-0"> <span class="text-muted">Showing {{ products.start_index }} to {{ products.paginator.count }} of {{ products.end_index }} total</span>
+                      </div>
+                      <div class="col-md-7 d-flex align-items-center justify-content-md-end">
+                        <div class="sort-filter ml-2 d-flex align-items-center">
+                          <select class="custom-select" id="inputGroupSelect02">
+                            <option selected>Default sorting</option>
+                            <option value="1">Newest Item</option>
+                            <option value="2">Populer</option>
+                            <option value="3">Best Match</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card product-list mb-5">
+                      <div class="row align-items-center">
+                        {% for product in products %}
+                        <div class="col-lg-4 col-md-5">
+                            <a class="card-img-hover d-block" href="#">
+                            {% with product.product_images.all|first as image %}
+                            <img class="card-img-top card-img-back" src="{{image.image.url}}" alt="...">
+                            {% endwith %}
+                            {% with product.product_images.all|first as image %}
+                            <img class="card-img-top card-img-front" src="{{image.image.url}}" alt="...">
+                            {% endwith %}
+                          </a>
+                        </div>
+                        <div class="col-lg-8 col-md-7">
+                          <div class="card-info">
+                            <div class="card-body">
+                              <div class="product-title"><a class="link-title" href="product-left-image.html">{{product.title}}</a>
+                              </div>
+                              <div class="mt-1">
+                                {% if product.discount_price %}
+                                    <span class="product-price text-dark">
+                                        <del class="text-muted">${{product.price}}</del> ${{product.discount_price}}
+                                    </span>
+                                {% else %}
+                                    <span class="product-price text-dark">
+                                        ${{product.price}}
+                                    </span>
+                                {% endif %}
+                                <div class="star-rating"><i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i>
+                                </div>
+                              </div>
+                              <p class="mb-3 mt-2">{{product.excerpt}}</p>
+                            </div>
+                            <div class="card-footer bg-transparent border-0">
+                              <div class="product-link d-flex align-items-center">
+                                <button class="btn btn-compare mr-2" data-toggle="tooltip" data-placement="top" title="Compare" type="button"><i class="las la-random"></i>
+                                </button>
+                                <button class="btn btn-compare mr-2" data-toggle="tooltip" data-placement="top" title="Compare" type="button"><i class="lar la-heart"></i>
+                                </button>
+                                <button class="btn-cart btn btn-pink mr-2" type="button"><i class="las la-shopping-cart mr-1"></i> Add to cart </button>
+                            </div>
+                            </div>
+                          </div>
+                        </div>
+                        {% endfor %}
+                      </div>
+                    </div>
+
+                    {% include 'partials/ecom/_pagination.html' %}
+                </div>
+                <div class="col-lg-3 col-md-12 sidebar mt-8 mt-lg-0">
+        <div>
+          <div class="widget widget-categories mb-4 border rounded p-4">
+            <h5 class="widget-title mb-3">Sub Categories</h5>
+
+              <div class="card border-0 mb-2">
+                <div class="card-body text-muted">
+                    <ul class="list-unstyled">
+                        {% for sub_cat in category_obj.subcategories.all %}
+                        <li> <a href="#">{{sub_cat.name}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+              </div>
+           </div>
+           <div class="widget widget-brand mb-4 border rounded p-4">
+            <h5 class="widget-title mb-3">Price</h5>
+           <div class="custom-control custom-checkbox mb-2">
+              <input type="checkbox" class="custom-control-input" id="priceCheck1">
+              <label class="custom-control-label" for="priceCheck1">Under $10</label>
+            </div>
+            <div class="custom-control custom-checkbox mb-2">
+              <input type="checkbox" class="custom-control-input" id="priceCheck1">
+              <label class="custom-control-label" for="priceCheck1">$10 - $100</label>
+            </div>
+            <div class="custom-control custom-checkbox mb-2">
+              <input type="checkbox" class="custom-control-input" id="priceCheck2">
+              <label class="custom-control-label" for="priceCheck2">$100 - $200</label>
+            </div>
+            <div class="custom-control custom-checkbox mb-2">
+              <input type="checkbox" class="custom-control-input" id="priceCheck3">
+              <label class="custom-control-label" for="priceCheck3">$200 - $300</label>
+            </div>
+            <div class="custom-control custom-checkbox mb-2">
+              <input type="checkbox" class="custom-control-input" id="priceCheck4">
+              <label class="custom-control-label" for="priceCheck4">$300 - $400</label>
+            </div>
+            <div class="custom-control custom-checkbox mb-2">
+              <input type="checkbox" class="custom-control-input" id="priceCheck5">
+              <label class="custom-control-label" for="priceCheck5">$400 - $1000</label>
+            </div>
+          </div>
+          <div class="widget widget-brand mb-4 border rounded p-4">
+            <h5 class="widget-title mb-3">Brand</h5>
+            <div class="custom-control custom-checkbox mb-2">
+              {{brand_form|crispy}}
+            </div>
+          </div>
+          <div class="widget widget-size mb-4 border rounded p-4">
+            <h5 class="widget-title mb-3">Size</h5>
+            <ul class="list-inline clearfix">
+              <li>
+                <input name="sc" id="xs-size" type="radio">
+                <label for="xs-size">XS</label>
+              </li>
+              <li>
+                <input name="sc" id="s-size" type="radio">
+                <label for="s-size">S</label>
+              </li>
+              <li>
+                <input name="sc" id="m-size" checked="" type="radio">
+                <label for="m-size">M</label>
+              </li>
+              <li>
+                <input name="sc" id="l-size" type="radio">
+                <label for="l-size">L</label>
+              </li>
+              <li>
+                <input name="sc" id="xl-size" type="radio">
+                <label for="xl-size">XL</label>
+              </li>
+
+
+
+            </ul>
+          </div>
+           <div class="widget mb-4">
+          <div class="position-relative rounded overflow-hidden">
+            <!-- Background -->
+            <img class="img-fluid hover-zoom" src="assets/images/product-ad/side-banner.jpg" alt="">
+            <!-- Body -->
+            <div class="position-absolute top-50 pl-5 side-banner">
+              <h6 class="text-dark">Todays Deals</h6>
+              <!-- Heading -->
+              <h4 class="font-w-6 text-dark">Accessories <br>
+                Special</h4>
+              <!-- Link --> <a class="more-link" href="#">Shop Now </a> </div>
+          </div>
+          </div>
+
+        </div>
+      </div>
+           </div>
+        </div>
+    </section>
+{% endblock content %}

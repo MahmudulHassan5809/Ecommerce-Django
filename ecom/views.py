@@ -2,7 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 import datetime
 from django.utils.timezone import now, localtime
-from .models import LeadSection, Product
+import urllib.parse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from .models import LeadSection, Product, Category, Brand
+from .forms import BrandForm
 from django.views import View, generic
 # Create your views here.
 
@@ -50,3 +53,40 @@ class HomeView(View):
             'today_products': today_products
         }
         return render(request, 'ecom/home.html', context)
+
+
+class CategoryView(View):
+    def get(self, request, *args, **kwargs):
+        cat_id = kwargs.get('id')
+        category_name = urllib.parse.unquote(kwargs.get('slug'))
+
+        category_obj = get_object_or_404(Category, id=cat_id)
+
+        products = Product.objects.filter(active=True, category=category_obj)
+
+        products = data_paginator(request, products)
+
+        brand_form = BrandForm()
+
+        context = {
+            'title': category_obj.name.title(),
+            'category_obj': category_obj,
+            'products': products,
+            'brand_form': brand_form
+        }
+
+        return render(request, 'ecom/category_products.html', context)
+
+
+def data_paginator(request, product_list):
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(product_list, 10)
+    try:
+        products = paginator.page(page)
+    except PageNotAnInteger:
+        products = paginator.page(1)
+    except EmptyPage:
+        products = paginator.page(paginator.num_pages)
+
+    return products

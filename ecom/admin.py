@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth import get_user_model
 from adminsortable2.admin import SortableAdminMixin
-from .models import Category, SubCategory, Product, ProductImage, LeadSection
+from .models import Category, SubCategory, Product, ProductImage, LeadSection, Brand
 from .forms import ProductForm
 
 from django.contrib.auth.models import User
@@ -37,6 +37,17 @@ class CategoryAdmin(SortableAdminMixin, admin.ModelAdmin):
 
 
 admin.site.register(Category, CategoryAdmin)
+
+
+class BrandAdmin(admin.ModelAdmin):
+    list_display = ('name', 'slug')
+    search_fields = ('name',)
+    list_filter = ('name',)
+    exclude = ['slug']
+    list_per_page = 20
+
+
+admin.site.register(Brand, BrandAdmin)
 
 
 class ProductImageInline(admin.StackedInline):

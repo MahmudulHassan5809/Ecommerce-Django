@@ -9,7 +9,7 @@
             <div id="navCatContent" class="nav_cat navbar">
               <ul>
                 {% for cat in categories %}
-                  <li><a class="dropdown-item nav-link nav_item" href="#"><i class="{{cat.icon}}"></i> <span>{{cat.name}}</span></a></li>
+                  <li><a class="dropdown-item nav-link nav_item" href="{% url 'ecom:category_view' cat.slug cat.id %}"><i class="{{cat.icon}}"></i> <span>{{cat.name}}</span></a></li>
                 {% endfor %}
               </ul>
             </div>

@@ -42,6 +42,22 @@ class SubCategory(models.Model):
         return self.name
 
 
+class Brand(models.Model):
+    name = models.CharField(max_length=150, unique=True)
+    slug = models.CharField(max_length=150, unique=True)
+
+    class Meta:
+        verbose_name = 'Brand'
+        verbose_name_plural = '3.Brand'
+
+    def save(self, *args, **kwargs):
+        self.slug = "-".join(self.name.split())
+        super(Brand, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
+
+
 def generate_unique_slug(klass, field):
     slug = field
     numb = 1
@@ -62,6 +78,8 @@ class Product(models.Model):
         Category, on_delete=models.CASCADE, related_name='cat_products')
     sub_category = GroupedForeignKey(
         SubCategory, "category", on_delete=models.CASCADE, related_name='subcat_products', null=True, blank=True)
+    brand = models.ForeignKey(
+        Brand, on_delete=models.CASCADE, related_name='brand_products', null=True, blank=True)
     title = models.CharField(max_length=220)
     slug = models.CharField(max_length=150)
     excerpt = models.CharField(max_length=255)
@@ -77,7 +95,7 @@ class Product(models.Model):
 
     class Meta:
         verbose_name = 'Product'
-        verbose_name_plural = '2.Product'
+        verbose_name_plural = '3.Product'
 
     @property
     def discount_price(self):
@@ -109,7 +127,7 @@ class ProductImage(models.Model):
 
     class Meta:
         verbose_name = 'Product Image'
-        verbose_name_plural = '4. Product Images'
+        verbose_name_plural = '5. Product Images'
 
     def __str__(self):
         return self.product.title
@@ -124,7 +142,7 @@ class LeadSection(models.Model):
         Category, on_delete=models.CASCADE, related_name='category_third_lead')
 
     class Meta:
-        verbose_name_plural = "3.Lead Sections"
+        verbose_name_plural = "4.Lead Sections"
 
     def __str__(self):
         return 'Lead Section'

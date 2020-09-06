@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import FileInput
 from django.forms import ModelForm
-from .models import Product, ProductImage
+from .models import Product, ProductImage, Brand
 
 
 class ProductForm(forms.ModelForm):
@@ -19,3 +19,16 @@ class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
         exclude = ('slug',)
+
+
+class BrandForm(forms.ModelForm):
+    name = forms.ModelMultipleChoiceField(
+        label="Brand Name", widget=forms.CheckboxSelectMultiple, queryset=Brand.objects.all())
+
+    class Meta:
+        model = Brand
+        exclude = ('slug',)
+
+    def __init__(self, *args, **kwargs):
+        super(BrandForm, self).__init__(*args, **kwargs)
+        self.fields['name'].label = ''
