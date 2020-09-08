@@ -89,20 +89,23 @@
                         <div class="row w-100 no-gutters">
                           <div class="col-lg-8 p-lg-3">
                             <div class="row">
+
                               {% for cat in categories %}
                               <div class="col-12 col-md-3 col-sm-6">
                                 <!-- Heading -->
+                                {% if cat.subcategories.count > 0 %}
                                 <div class="mb-2 font-w-5 text-link">{{cat.name}}</div>
                                 <!-- Links -->
                                 <ul class="list-unstyled mb-6 mb-md-0">
                                   {% for sub_cat in cat.subcategories.all %}
                                     <li> <a href="#">{{sub_cat.name}}</a></li>
                                   {% endfor %}
-
-
                                 </ul>
+                                {% endif %}
                               </div>
+
                               {% endfor %}
+
                             </div>
                           </div>
                           <div class="col-lg-4 d-none d-lg-block pr-2"> <img class="img-fluid rounded-bottom rounded-top" src="{% static 'images/header-img.jpg' %}" alt="..."> </div>

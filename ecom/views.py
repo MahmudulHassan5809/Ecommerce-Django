@@ -5,7 +5,7 @@ from django.utils.timezone import now, localtime
 import urllib.parse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import LeadSection, Product, Category, Brand
-from .forms import BrandForm
+from .forms import BrandForm, PriceRangeForm, SizeChoiceForm
 from django.views import View, generic
 # Create your views here.
 
@@ -68,11 +68,17 @@ class CategoryView(View):
 
         brand_form = BrandForm()
 
+        price_range = PriceRangeForm()
+
+        size_form = SizeChoiceForm()
+
         context = {
             'title': category_obj.name.title(),
             'category_obj': category_obj,
             'products': products,
-            'brand_form': brand_form
+            'brand_form': brand_form,
+            'price_range': price_range,
+            'size_form': size_form
         }
 
         return render(request, 'ecom/category_products.html', context)

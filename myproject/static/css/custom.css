@@ -1,0 +1,24 @@
+.form-check-label{
+    width: 20px;
+    height: 20px !important;
+    border-radius: 100%;
+    padding: 0 !important;
+    font-weight: bold;
+}
+
+
+.category_list {
+    background: antiquewhite;
+    border-bottom: 1px solid turquoise;
+    padding: 5px;
+}
+
+.category_list:hover {
+    background: #efe8ef;
+    border-bottom: 1px solid turquoise;
+    padding: 5px;
+}
+
+.list-inline label{
+    background-color: #ff324d !important;
+}

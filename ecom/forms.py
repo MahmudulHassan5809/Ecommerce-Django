@@ -4,15 +4,17 @@ from django.forms import ModelForm
 from .models import Product, ProductImage, Brand
 
 
+SIZE_CHOICES = (
+    ('0', 'XS'),
+    ('1', 'Small'),
+    ('2', 'Medium'),
+    ('3', 'Large'),
+    ('4', 'XL'),
+    ('5', 'XXL'),
+)
+
+
 class ProductForm(forms.ModelForm):
-    SIZE_CHOICES = (
-        ('0', 'XS'),
-        ('1', 'Small'),
-        ('2', 'Medium'),
-        ('3', 'Large'),
-        ('4', 'XL'),
-        ('5', 'XXL'),
-    )
     size = forms.MultipleChoiceField(
         choices=SIZE_CHOICES, widget=forms.SelectMultiple, required=False)
 
@@ -22,8 +24,7 @@ class ProductForm(forms.ModelForm):
 
 
 class BrandForm(forms.ModelForm):
-    name = forms.ModelMultipleChoiceField(
-        label="Brand Name", widget=forms.CheckboxSelectMultiple, queryset=Brand.objects.all())
+    name = forms.ModelChoiceField(label="", queryset=Brand.objects.all())
 
     class Meta:
         model = Brand
@@ -31,4 +32,21 @@ class BrandForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(BrandForm, self).__init__(*args, **kwargs)
-        self.fields['name'].label = ''
+        self.fields['name'].label_classes = ('custom-control-label', )
+        # self.fields['name'].label = ''
+
+
+class PriceRangeForm(forms.Form):
+    PRICE_CHOICES = (
+        ('0', '-----------'),
+        ('1', 'Up To 500'),
+        ('2', 'Up To 1000'),
+        ('3', 'Up To 5000'),
+        ('4', 'Greater Than 5000'),
+    )
+
+    price_range = forms.ChoiceField(label="", choices=PRICE_CHOICES)
+
+
+class SizeChoiceForm(forms.Form):
+    size = forms.ChoiceField(widget=forms.RadioSelect(), choices=SIZE_CHOICES)
