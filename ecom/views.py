@@ -7,6 +7,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import LeadSection, Product, Category, Brand
 from .forms import BrandForm, PriceRangeForm, SizeChoiceForm
 from django.views import View, generic
+from django.db.models import Max, Min , Count , Sum
 # Create your views here.
 
 
@@ -66,12 +67,32 @@ class CategoryView(View):
 
         products = data_paginator(request, products)
 
-        brand_form = BrandForm()
+        
 
         price_range = PriceRangeForm()
-
+        brand_form = BrandForm()
         size_form = SizeChoiceForm()
 
+        if True:
+            val  = request.GET.get('defult')
+            if val == "1":
+                products = Product.objects.filter(active=True, category=category_obj).order_by('-created_at')
+
+        if price_range:
+            price_value = request.GET.get('price_range')
+            brand_value = request.GET.get('name')
+            size_value = request.GET.get('size')
+
+            if price_value == "0":
+                products = Product.objects.filter(active=True, category=category_obj, brand__id = brand_value)
+            if price_value == "1":
+                products = Product.objects.filter(active=True, category=category_obj,price__range = (0, 500) , brand__id = brand_value)
+            if price_value == "2":
+                products = Product.objects.filter(active=True, category=category_obj,price__range = (0, 1000) , brand__id = brand_value)
+            if price_value == "3":
+                products = Product.objects.filter(active=True, category=category_obj,price__range = (0, 5000) , brand__id = brand_value)
+            if price_value == "4":
+                products = Product.objects.filter(active=True, category=category_obj,price__range = (0, 500000) , brand__id = brand_value)
         context = {
             'title': category_obj.name.title(),
             'category_obj': category_obj,

@@ -49,4 +49,4 @@ class PriceRangeForm(forms.Form):
 
 
 class SizeChoiceForm(forms.Form):
-    size = forms.ChoiceField(widget=forms.RadioSelect(), choices=SIZE_CHOICES)
+    size = forms.ChoiceField(label="", choices=SIZE_CHOICES)

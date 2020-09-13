@@ -18,12 +18,15 @@
                       </div>
                       <div class="col-md-7 d-flex align-items-center justify-content-md-end">
                         <div class="sort-filter ml-2 d-flex align-items-center">
-                          <select class="custom-select" id="inputGroupSelect02">
-                            <option selected>Default sorting</option>
-                            <option value="1">Newest Item</option>
+                          <form method="GET" class="form-inline">
+                          <select class="custom-select" name="defult" onchange="this.form.submit()" id="inputGroupSelect02">
+                            
+                            <option value="0" >Default sorting</option>
+                            <option value="1" >Newest Item</option>
                             <option value="2">Populer</option>
-                            <option value="3">Best Match</option>
+                            <option value="3" >Best Match</option>
                           </select>
+                          </form>
                         </div>
                       </div>
                     </div>
@@ -77,6 +80,7 @@
 
                     {% include 'partials/ecom/_pagination.html' %}
                 </div>
+
                 <div class="col-lg-3 col-md-12 sidebar mt-8 mt-lg-0">
 
                 <div class="widget widget-categories mb-4 border rounded p-0">
@@ -91,6 +95,7 @@
                       </div>
                   </div>
 
+                <form class="" action="" method="GET">
                  </div>
                  <div class="widget widget-brand mb-4 border rounded p-4">
                   <h5 class="widget-title mb-3">Price</h5>
@@ -106,16 +111,20 @@
                   </div>
 
                 </div>
+                
+                
+
+
                 <div class="widget widget-size mb-4 border rounded p-4">
                   <h5 class="widget-title mb-3">Size</h5>
-                  <ul class="list-inline clearfix">
-                    {% for choice in size_form.size %}
-                    <li>
-                      {{ choice }}
-                    </li>
-                    {% endfor %}
-                  </ul>
+                  
+                   <div class="custom-control custom-checkbox mb-2 pl-0">
+                      {{size_form|crispy}}
+                  </div>
+                  
                 </div>
+                <button class="boxed-btn4 " type="submit" >Search</button>
+                </form>
                 <div class="widget mb-4">
                 <div class="position-relative rounded overflow-hidden">
                   <!-- Background -->
