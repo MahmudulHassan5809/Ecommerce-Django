@@ -68,6 +68,35 @@ def generate_unique_slug(klass, field):
     return slug
 
 
+class ProductQuerySet(models.QuerySet):
+    def price_filter(self, price, last_price=None):
+        print(price, last_price)
+        if last_price:
+            print(last_price)
+            return self.filter(price__gte=last_price)
+        return self.filter(price__range=(0, price))
+
+    def brand_filter(self, brand_id):
+        return self.filter(brand_id=brand_id)
+
+    def active_filter(self):
+        return self.filter(active=True)
+
+
+class ProductManager(models.Manager):
+    def get_queryset(self):
+        return ProductQuerySet(self.model, using=self.db)
+
+    def price_filter(self, price, last_price):
+        return self.get_queryset().price_filter(price, last_price)
+
+    def brand_filter(self, brand_id):
+        return self.get_queryset().brand_filter(brand_id)
+
+    def active_filter(self):
+        return self.get_queryset().active_filter()
+
+
 class Product(models.Model):
     AVAILIBILITY_CHOICES = (
         ('0', 'In Stock'),
@@ -92,6 +121,8 @@ class Product(models.Model):
     description = models.TextField()
     active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True, auto_now=False)
+
+    objects = ProductManager()
 
     class Meta:
         verbose_name = 'Product'

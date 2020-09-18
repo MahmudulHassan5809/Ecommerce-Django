@@ -20,7 +20,7 @@
                         <div class="sort-filter ml-2 d-flex align-items-center">
                           <form method="GET" class="form-inline">
                           <select class="custom-select" name="defult" onchange="this.form.submit()" id="inputGroupSelect02">
-                            
+
                             <option value="0" >Default sorting</option>
                             <option value="1" >Newest Item</option>
                             <option value="2">Populer</option>
@@ -31,51 +31,7 @@
                       </div>
                     </div>
                     <div class="card product-list mb-5">
-                      <div class="row align-items-center">
-                        {% for product in products %}
-                        <div class="col-lg-4 col-md-5">
-                            <a class="card-img-hover d-block" href="#">
-                            {% with product.product_images.all|first as image %}
-                            <img class="card-img-top card-img-back" src="{{image.image.url}}" alt="...">
-                            {% endwith %}
-                            {% with product.product_images.all|first as image %}
-                            <img class="card-img-top card-img-front" src="{{image.image.url}}" alt="...">
-                            {% endwith %}
-                          </a>
-                        </div>
-                        <div class="col-lg-8 col-md-7">
-                          <div class="card-info">
-                            <div class="card-body">
-                              <div class="product-title"><a class="link-title" href="product-left-image.html">{{product.title}}</a>
-                              </div>
-                              <div class="mt-1">
-                                {% if product.discount_price %}
-                                    <span class="product-price text-dark">
-                                        <del class="text-muted">${{product.price}}</del> ${{product.discount_price}}
-                                    </span>
-                                {% else %}
-                                    <span class="product-price text-dark">
-                                        ${{product.price}}
-                                    </span>
-                                {% endif %}
-                                <div class="star-rating"><i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i>
-                                </div>
-                              </div>
-                              <p class="mb-3 mt-2">{{product.excerpt}}</p>
-                            </div>
-                            <div class="card-footer bg-transparent border-0">
-                              <div class="product-link d-flex align-items-center">
-                                <button class="btn btn-compare mr-2" data-toggle="tooltip" data-placement="top" title="Compare" type="button"><i class="las la-random"></i>
-                                </button>
-                                <button class="btn btn-compare mr-2" data-toggle="tooltip" data-placement="top" title="Compare" type="button"><i class="lar la-heart"></i>
-                                </button>
-                                <button class="btn-cart btn btn-pink mr-2" type="button"><i class="las la-shopping-cart mr-1"></i> Add to cart </button>
-                            </div>
-                            </div>
-                          </div>
-                        </div>
-                        {% endfor %}
-                      </div>
+                      {% include './products.html' %}
                     </div>
 
                     {% include 'partials/ecom/_pagination.html' %}
@@ -95,35 +51,38 @@
                       </div>
                   </div>
 
-                <form class="" action="" method="GET">
-                 </div>
+                <form id="filterForm" data-products-url="{% url 'ecom:category_filter' category_obj.id %}">
+
                  <div class="widget widget-brand mb-4 border rounded p-4">
                   <h5 class="widget-title mb-3">Price</h5>
                   <div class="custom-control custom-checkbox mb-2 pl-0">
-                      {{price_range|crispy}}
+                      {{category_filter_form.price_range|as_crispy_field}}
                   </div>
                 </div>
                 <div class="widget widget-brand mb-4 border rounded p-4">
                   <h5 class="widget-title mb-3">Brand</h5>
 
                   <div class="custom-control custom-checkbox mb-2 pl-0">
-                      {{brand_form|crispy}}
+                      {{category_filter_form.brand_name|as_crispy_field}}
                   </div>
 
                 </div>
-                
-                
 
 
-                <div class="widget widget-size mb-4 border rounded p-4">
-                  <h5 class="widget-title mb-3">Size</h5>
-                  
-                   <div class="custom-control custom-checkbox mb-2 pl-0">
-                      {{size_form|crispy}}
+
+
+                  <div class="widget widget-size mb-4 border rounded p-4">
+                    <h5 class="widget-title mb-3">Size</h5>
+
+                     <div class="custom-control custom-checkbox mb-2 pl-0">
+                        {{category_filter_form.size|as_crispy_field}}
+                    </div>
+
                   </div>
-                  
-                </div>
-                <button class="boxed-btn4 " type="submit" >Search</button>
+                   <input type="submit" value="submit" id="submitButton" />
+
+
+
                 </form>
                 <div class="widget mb-4">
                 <div class="position-relative rounded overflow-hidden">
@@ -145,3 +104,27 @@
         </div>
     </section>
 {% endblock content %}
+
+
+{% block script %}
+    <script>
+        $(document).ready(function() {
+
+          var url = $("#filterForm").attr("data-products-url");
+
+          $(document).on('submit', '#filterForm',function(e){
+              e.preventDefault();
+              $.ajax({
+                  url: url,
+                  type: 'GET',
+                  data: $('form#filterForm').serialize(),
+              })
+              .done(function(html) {
+                  $('.product-list').html(html)
+              })
+
+          })
+
+        });
+  </script>
+{% endblock script %}

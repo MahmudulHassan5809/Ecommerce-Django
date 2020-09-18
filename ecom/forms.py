@@ -23,30 +23,42 @@ class ProductForm(forms.ModelForm):
         exclude = ('slug',)
 
 
-class BrandForm(forms.ModelForm):
-    name = forms.ModelChoiceField(label="", queryset=Brand.objects.all())
+# class BrandForm(forms.ModelForm):
+#     name = forms.ModelChoiceField(label="", queryset=Brand.objects.all())
 
-    class Meta:
-        model = Brand
-        exclude = ('slug',)
+#     class Meta:
+#         model = Brand
+#         exclude = ('slug',)
 
-    def __init__(self, *args, **kwargs):
-        super(BrandForm, self).__init__(*args, **kwargs)
-        self.fields['name'].label_classes = ('custom-control-label', )
-        # self.fields['name'].label = ''
+#     def __init__(self, *args, **kwargs):
+#         super(BrandForm, self).__init__(*args, **kwargs)
+#         self.fields['name'].label_classes = ('custom-control-label', )
+#         # self.fields['name'].label = ''
 
 
-class PriceRangeForm(forms.Form):
+# class PriceRangeForm(forms.Form):
+#     PRICE_CHOICES = (
+#         ('0', '-----------'),
+#         ('1', 'Up To 500'),
+#         ('2', 'Up To 1000'),
+#         ('3', 'Up To 5000'),
+#         ('4', 'Greater Than 5000'),
+#     )
+
+#     price_range = forms.ChoiceField(label="", choices=PRICE_CHOICES)
+
+
+class CategoryFilterForm(forms.Form):
     PRICE_CHOICES = (
         ('0', '-----------'),
-        ('1', 'Up To 500'),
-        ('2', 'Up To 1000'),
-        ('3', 'Up To 5000'),
-        ('4', 'Greater Than 5000'),
+        ('500', 'Up To 500'),
+        ('1000', 'Up To 1000'),
+        ('5000', 'Up To 5000'),
+        ('inf', 'Greater Than 5000'),
     )
 
-    price_range = forms.ChoiceField(label="", choices=PRICE_CHOICES)
-
-
-class SizeChoiceForm(forms.Form):
-    size = forms.ChoiceField(label="", choices=SIZE_CHOICES)
+    brand_name = forms.ModelChoiceField(
+        label="", queryset=Brand.objects.all(), required=False)
+    size = forms.ChoiceField(label="", choices=SIZE_CHOICES, required=False)
+    price_range = forms.ChoiceField(
+        label="", choices=PRICE_CHOICES, required=False)
