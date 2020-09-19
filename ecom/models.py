@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 from smart_selects.db_fields import GroupedForeignKey
+from datetime import datetime, timedelta
 # Create your models here.
 
 
@@ -79,6 +80,15 @@ class ProductQuerySet(models.QuerySet):
     def brand_filter(self, brand_id):
         return self.filter(brand_id=brand_id)
 
+    def size_filter(self, size):
+        return self.filter(size__icontains=size)
+
+    def newest_filter(self):
+        return self.filter(created_at__gte=datetime.now() - timedelta(days=7))
+
+    def subcat_filter(self, subcat_id):
+        return self.filter(sub_category_id=subcat_id)
+
     def active_filter(self):
         return self.filter(active=True)
 
@@ -92,6 +102,15 @@ class ProductManager(models.Manager):
 
     def brand_filter(self, brand_id):
         return self.get_queryset().brand_filter(brand_id)
+
+    def brand_filter(self, size):
+        return self.get_queryset().size_filter(size)
+
+    def newest_filter(self):
+        return self.get_queryset().newest_filter()
+
+    def subcat_filter(self, subcat_id):
+        return self.get_queryset().subcat_filter(subcat_id)
 
     def active_filter(self):
         return self.get_queryset().active_filter()
@@ -120,7 +139,7 @@ class Product(models.Model):
     discount = models.FloatField(default=0.0)
     description = models.TextField()
     active = models.BooleanField(default=True)
-    created_at = models.DateTimeField(auto_now_add=True, auto_now=False)
+    created_at = models.DateTimeField()
 
     objects = ProductManager()
 

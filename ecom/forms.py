@@ -5,12 +5,13 @@ from .models import Product, ProductImage, Brand
 
 
 SIZE_CHOICES = (
-    ('0', 'XS'),
-    ('1', 'Small'),
-    ('2', 'Medium'),
-    ('3', 'Large'),
-    ('4', 'XL'),
-    ('5', 'XXL'),
+    ('0', '-----------'),
+    ('xs', 'XS'),
+    ('sm', 'Small'),
+    ('md', 'Medium'),
+    ('l', 'Large'),
+    ('xl', 'XL'),
+    ('xxl', 'XXL'),
 )
 
 
@@ -49,6 +50,12 @@ class ProductForm(forms.ModelForm):
 
 
 class CategoryFilterForm(forms.Form):
+    NEW_POPULAR_CHOICES = (
+        ('default', 'Default'),
+        ('new', 'NEW'),
+        ('popular', 'Popular'),
+    )
+
     PRICE_CHOICES = (
         ('0', '-----------'),
         ('500', 'Up To 500'),
@@ -62,3 +69,5 @@ class CategoryFilterForm(forms.Form):
     size = forms.ChoiceField(label="", choices=SIZE_CHOICES, required=False)
     price_range = forms.ChoiceField(
         label="", choices=PRICE_CHOICES, required=False)
+    new_or_popular = forms.ChoiceField(
+        label='', choices=NEW_POPULAR_CHOICES, required=False, widget=forms.Select(attrs={"onChange": 'submit()'}))

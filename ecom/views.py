@@ -60,8 +60,8 @@ class HomeView(View):
 
 class CategoryView(View):
     def get(self, request, *args, **kwargs):
-        cat_id = kwargs.get('id')
-        category_name = urllib.parse.unquote(kwargs.get('slug'))
+        cat_id = kwargs.get('category_id')
+        category_name = urllib.parse.unquote(kwargs.get('category_slug'))
 
         category_obj = get_object_or_404(Category, id=cat_id)
 
@@ -69,34 +69,10 @@ class CategoryView(View):
 
         products = data_paginator(request, products)
 
+        print(products, '==============')
+
         category_filter_form = CategoryFilterForm()
 
-        # if True:
-        #     val = request.GET.get('defult')
-        #     if val == "1":
-        #         products = Product.objects.filter(
-        #             active=True, category=category_obj).order_by('-created_at')
-
-        # if price_range:
-        #     price_value = request.GET.get('price_range')
-        #     brand_value = request.GET.get('name')
-        #     size_value = request.GET.get('size')
-
-        #     if price_value == "0":
-        #         products = Product.objects.filter(
-        #             active=True, category=category_obj, brand__id=brand_value)
-        #     if price_value == "1":
-        #         products = Product.objects.filter(
-        #             active=True, category=category_obj, price__range=(0, 500), brand__id=brand_value)
-        #     if price_value == "2":
-        #         products = Product.objects.filter(
-        #             active=True, category=category_obj, price__range=(0, 1000), brand__id=brand_value)
-        #     if price_value == "3":
-        #         products = Product.objects.filter(
-        #             active=True, category=category_obj, price__range=(0, 5000), brand__id=brand_value)
-        #     if price_value == "4":
-        #         products = Product.objects.filter(
-        #             active=True, category=category_obj, price__range=(0, 500000), brand__id=brand_value)
         context = {
             'title': category_obj.name.title(),
             'category_obj': category_obj,
@@ -112,37 +88,50 @@ class CategoryFilterView(View):
         cat_id = kwargs.get('category_id')
         category_obj = get_object_or_404(Category, id=cat_id)
 
-        products = Product.objects.active_filter().filter(
-            active=True, category=category_obj)
+        products = Product.objects.active_filter().filter(category=category_obj)
+
+        sub_cat = request.GET.get('sub_category')
+        if sub_cat and sub_cat != '0':
+            products = products.subcat_filter(sub_cat)
 
         category_filter_form = CategoryFilterForm(request.GET)
 
         if category_filter_form.is_valid():
             data = category_filter_form.cleaned_data
             brand = request.GET.get('brand_name')
+            size = request.GET.get('size')
             price = data['price_range']
-
-            if price != '0':
-                if price == 'inf':
-                    products = products.price_filter(0, 5000)
-                else:
-                    products = products.price_filter(int(price))
+            new_or_popular = data['new_or_popular']
+            if price:
+                if price != '0':
+                    if price == 'inf':
+                        products = products.price_filter(0, 5000)
+                    else:
+                        products = products.price_filter(int(price))
             if brand:
                 products = products.brand_filter(brand)
+
+            if size != '0' and size:
+                products = products.size_filter(size)
+
+            if new_or_popular == 'new':
+                products = products.newest_filter()
         else:
             print('not valid')
 
-        # context = {
-        #     'title': category_obj.name.title(),
-        #     'category_obj': category_obj,
-        #     'products': products,
-        #     'category_filter_form': category_filter_form,
-        # }
+        products = data_paginator(request, products)
 
-        html = render_to_string('ecom/products.html', {'products': products})
-        return JsonResponse(html, safe=False)
+        context = {
+            'title': category_obj.name.title(),
+            'category_obj': category_obj,
+            'products': products,
+            'category_filter_form': category_filter_form,
+        }
 
-        # return render(request, 'ecom/category_products.html', context)
+        # html = render_to_string('ecom/products.html', context)
+        # return JsonResponse(html, safe=False)
+
+        return render(request, 'ecom/category_products.html', context)
 
 
 def data_paginator(request, product_list):
