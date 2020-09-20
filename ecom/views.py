@@ -85,10 +85,23 @@ class CategoryView(View):
 
 class CategoryFilterView(View):
     def get(self, request, *args, **kwargs):
-        cat_id = kwargs.get('category_id')
+        if kwargs.get('category_id'):
+            cat_id = kwargs.get('category_id')
+        if request.GET.get('search_category') and request.GET.get('search_category') != '0':
+            search_category = request.GET.get('search_category')
+            cat_id = search_category
+        else:
+            return redirect('ecom:home')
+
         category_obj = get_object_or_404(Category, id=cat_id)
 
         products = Product.objects.active_filter().filter(category=category_obj)
+
+        if request.GET.get('query') and request.GET.get('query') != '':
+            query = request.GET.get('query')
+            products = products.title_desc_filter(query)
+        else:
+            query = ''
 
         sub_cat = request.GET.get('sub_category')
         if sub_cat and sub_cat != '0':
@@ -102,6 +115,7 @@ class CategoryFilterView(View):
             size = request.GET.get('size')
             price = data['price_range']
             new_or_popular = data['new_or_popular']
+
             if price:
                 if price != '0':
                     if price == 'inf':
@@ -126,12 +140,19 @@ class CategoryFilterView(View):
             'category_obj': category_obj,
             'products': products,
             'category_filter_form': category_filter_form,
+            'search_category': search_category,
+            'query': query
         }
 
         # html = render_to_string('ecom/products.html', context)
         # return JsonResponse(html, safe=False)
 
         return render(request, 'ecom/category_products.html', context)
+
+
+# class SearchProductView(View):
+#     def get(self, request, *args, **kwargs):
+#         print(request.GET)
 
 
 def data_paginator(request, product_list):

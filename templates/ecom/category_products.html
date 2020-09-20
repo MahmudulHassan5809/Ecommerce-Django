@@ -11,6 +11,9 @@
 {% block content %}
 
 <form name="filterForm" action="{% url 'ecom:category_filter' category_obj.id %}" method="GET">
+
+    <input type="hidden" name="search_category" value="{{search_category}}">
+    <input type="hidden" name="query_text" value="{{query}}">
     <section class="bg-white">
         <div class="container">
            <div class="row">
@@ -163,6 +166,15 @@
             $(document).on('click','.select-items div',function() {
                $('form[name="filterForm"]').submit()
             });
+
+
+            var select_option = $("input[name='search_category']").val();
+            var query = $("input[name='query_text']").val();
+            console.log(query)
+
+            $(`#search_category option[value=${select_option}]`).prop('selected', true)
+
+            $("#searchForm input[name='query']").val(query);
         });
 
         // $(document).ready(function() {

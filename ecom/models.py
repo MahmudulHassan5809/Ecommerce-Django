@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 from smart_selects.db_fields import GroupedForeignKey
+from django.db.models import Q
 from datetime import datetime, timedelta
 # Create your models here.
 
@@ -89,6 +90,9 @@ class ProductQuerySet(models.QuerySet):
     def subcat_filter(self, subcat_id):
         return self.filter(sub_category_id=subcat_id)
 
+    def title_desc_filter(self, query):
+        return self.filter(Q(title__icontains=query) | Q(description__icontains=query))
+
     def active_filter(self):
         return self.filter(active=True)
 
@@ -111,6 +115,9 @@ class ProductManager(models.Manager):
 
     def subcat_filter(self, subcat_id):
         return self.get_queryset().subcat_filter(subcat_id)
+
+    def title_desc_filter(self, subcat_id):
+        return self.get_queryset().title_desc_filter(query)
 
     def active_filter(self):
         return self.get_queryset().active_filter()
