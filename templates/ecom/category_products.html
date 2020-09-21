@@ -55,7 +55,7 @@
                                     </span>
                                 {% else %}
                                     <span class="product-price text-dark">
-                                        ${{product.price}} -- {{product.size}}
+                                        ${{product.price}}
                                     </span>
                                 {% endif %}
                                 <div class="star-rating"><i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i>
@@ -67,8 +67,8 @@
                               <div class="product-link d-flex align-items-center">
                                 <button class="btn btn-compare mr-2" data-toggle="tooltip" data-placement="top" title="Compare" type="button"><i class="las la-random"></i>
                                 </button>
-                                <button class="btn btn-compare mr-2" data-toggle="tooltip" data-placement="top" title="Compare" type="button"><i class="lar la-heart"></i>
-                                </button>
+                                <a class="btn btn-compare mr-2" data-toggle="tooltip" data-placement="top" title="WishList" type="button" href="{% url 'ecom:add_wishlist' product.id %}"><i class="lar la-heart"></i>
+                                </a>
                                 <button class="btn-cart btn btn-pink mr-2" type="button"><i class="las la-shopping-cart mr-1"></i> Add to cart </button>
                             </div>
                             </div>

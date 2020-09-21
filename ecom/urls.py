@@ -15,5 +15,11 @@ urlpatterns = [
          views.CategoryFilterView.as_view(), name='category_filter'),
 
     path('search/product/',
-         views.CategoryFilterView.as_view(), name='search_product')
+         views.CategoryFilterView.as_view(), name='search_product'),
+
+    path('add-wishlist/<int:product_id>/',
+         views.AddWishListView.as_view(), name='add_wishlist'),
+    path('remove-wishlist/<int:product_id>/',
+         views.RemoveWishListView.as_view(), name='remove_wishlist')
+
 ]

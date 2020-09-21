@@ -26,7 +26,7 @@
             <ul class="header_list">
               <li><a href="{% url 'accounts:dashboard_view' %}"><i class="icon fa fa-user"></i><span>My Account</span></a></li>
               <li><a href="wishlist.html"><i class="icon fa fa-check"></i><span>Checkout</span></a></li>
-              <li><a href="wishlist.html"><i class="icon fa fa-heart"></i><span>Wishlist</span></a></li>
+              <li><a href="{% url 'accounts:my_wishlist' %}"><i class="icon fa fa-heart"></i><span>Wishlist</span></a></li>
               <li><a href="{% url 'accounts:login' %}"><i class="icon fa fa-lock"></i><span>Login</span></a></li>
             </ul>
           </div>

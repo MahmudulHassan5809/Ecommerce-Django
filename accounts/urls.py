@@ -13,6 +13,7 @@ urlpatterns = [
     path('dashboard/', views.DashboardView.as_view(), name='dashboard_view'),
     path('user/dashboard/', views.UserDashboardView.as_view(), name='user_dashboard'),
     path('my-profile/', views.MyProfileView.as_view(), name="my_profile"),
+    path('my-wishlist/', views.MyWishListView.as_view(), name="my_wishlist"),
 
 
 

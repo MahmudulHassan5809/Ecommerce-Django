@@ -2,8 +2,12 @@ from django.db import models
 from django.utils.text import slugify
 from smart_selects.db_fields import GroupedForeignKey
 from django.db.models import Q
+from django.contrib.auth import get_user_model
 from datetime import datetime, timedelta
 # Create your models here.
+
+
+User = get_user_model()
 
 
 class Category(models.Model):
@@ -203,3 +207,15 @@ class LeadSection(models.Model):
 
     def __str__(self):
         return 'Lead Section'
+
+
+class WishList(models.Model):
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='user_wishlist')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name_plural = "4.Wish List"
+
+    def __str__(self):
+        return f"{self.user.username} added {self.product.title} to wishlist"

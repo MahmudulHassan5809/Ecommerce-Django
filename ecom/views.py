@@ -6,9 +6,11 @@ import datetime
 from django.utils.timezone import now, localtime
 import urllib.parse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .models import LeadSection, Product, Category, Brand
+from .models import LeadSection, Product, Category, Brand, WishList
 from .forms import CategoryFilterForm
 from django.views import View, generic
+from accounts.mixins import AictiveUserRequiredMixin
+from django.contrib import messages
 from django.db.models import Max, Min, Count, Sum
 # Create your views here.
 
@@ -150,9 +152,29 @@ class CategoryFilterView(View):
         return render(request, 'ecom/category_products.html', context)
 
 
-# class SearchProductView(View):
-#     def get(self, request, *args, **kwargs):
-#         print(request.GET)
+class AddWishListView(AictiveUserRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        product_id = kwargs.get('product_id')
+        product_obj = get_object_or_404(Product, id=product_id)
+
+        check_wishlist = WishList.objects.filter(product=product_obj).first()
+
+        if not check_wishlist:
+            WishList.objects.create(user=request.user, product=product_obj)
+            messages.success(request, 'Product Added Successfully To Wishlist')
+        else:
+            messages.warning(request, 'Product Already In  Wishlist')
+        return redirect('accounts:my_wishlist')
+
+
+class RemoveWishListView(AictiveUserRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        product_id = kwargs.get('product_id')
+        product_obj = get_object_or_404(Product, id=product_id)
+
+        WishList.objects.filter(product=product_obj).delete()
+        messages.success(request, 'Product Removed From Wishlist')
+        return redirect('accounts:my_wishlist')
 
 
 def data_paginator(request, product_list):
