@@ -219,3 +219,15 @@ class WishList(models.Model):
 
     def __str__(self):
         return f"{self.user.username} added {self.product.title} to wishlist"
+
+class CompareProduct(models.Model):
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='user_comparelist')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name_plural = "5.Compare Product"
+
+    def __str__(self):
+        return f"{self.user.username} added {self.product.title} to compare"
+
