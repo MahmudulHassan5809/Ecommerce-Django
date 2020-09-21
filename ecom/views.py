@@ -153,6 +153,17 @@ class CategoryFilterView(View):
         return render(request, 'ecom/category_products.html', context)
 
 
+class ProductDetailView(generic.DetailView):
+    model = Product
+    template_name = 'ecom/single_product.html'
+    context_object_name = 'product'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['title'] = self.object.title
+        return context
+
+
 class AddWishListView(AictiveUserRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         product_id = kwargs.get('product_id')

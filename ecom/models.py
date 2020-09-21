@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.text import slugify
 from smart_selects.db_fields import GroupedForeignKey
 from django.db.models import Q
+from django.urls import reverse
 from django.contrib.auth import get_user_model
 from datetime import datetime, timedelta
 # Create your models here.
@@ -176,6 +177,9 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse('product:edit_product', args=[str(self.id)])
+
+    def get_detail_url(self):
+        return reverse('ecom:product_detail', args=[str(self.slug), str(self.id)])
 
     def __str__(self):
         return self.title
