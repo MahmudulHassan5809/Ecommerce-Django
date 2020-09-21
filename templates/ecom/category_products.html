@@ -65,8 +65,9 @@
                             </div>
                             <div class="card-footer bg-transparent border-0">
                               <div class="product-link d-flex align-items-center">
-                                <button class="btn btn-compare mr-2" data-toggle="tooltip" data-placement="top" title="Compare" type="button"><i class="las la-random"></i>
-                                </button>
+                                <a class="btn btn-compare mr-2" data-toggle="tooltip" data-placement="top" title="Compare" type="button" href="{% url 'ecom:add_compare' product.id %}"
+                                ><i class="las la-random"></i>
+                                </a>
                                 <a class="btn btn-compare mr-2" data-toggle="tooltip" data-placement="top" title="WishList" type="button" href="{% url 'ecom:add_wishlist' product.id %}"><i class="lar la-heart"></i>
                                 </a>
                                 <button class="btn-cart btn btn-pink mr-2" type="button"><i class="las la-shopping-cart mr-1"></i> Add to cart </button>

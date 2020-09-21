@@ -14,6 +14,7 @@ urlpatterns = [
     path('user/dashboard/', views.UserDashboardView.as_view(), name='user_dashboard'),
     path('my-profile/', views.MyProfileView.as_view(), name="my_profile"),
     path('my-wishlist/', views.MyWishListView.as_view(), name="my_wishlist"),
+    path('my-comparelist/', views.MyCompareListView.as_view(), name="my_comparelist"),
 
 
 

@@ -20,6 +20,11 @@ urlpatterns = [
     path('add-wishlist/<int:product_id>/',
          views.AddWishListView.as_view(), name='add_wishlist'),
     path('remove-wishlist/<int:product_id>/',
-         views.RemoveWishListView.as_view(), name='remove_wishlist')
+         views.RemoveWishListView.as_view(), name='remove_wishlist'),
+
+    path('add-compare/<int:product_id>/',
+         views.AddCompareView.as_view(), name='add_compare'),
+    path('remove-compare/<int:product_id>/',
+         views.RemoveCompareView.as_view(), name='remove_compare')
 
 ]

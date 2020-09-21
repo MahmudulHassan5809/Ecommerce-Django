@@ -19,7 +19,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import PasswordChangeForm
 
-from ecom.models import WishList
+from ecom.models import WishList, CompareProduct
 
 
 from accounts.forms import SignUpForm, UserForm, ProfileForm
@@ -197,4 +197,21 @@ class MyWishListView(AictiveUserRequiredMixin, generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'My Wishlist'
+        return context
+
+
+class MyCompareListView(AictiveUserRequiredMixin, generic.ListView):
+    model = CompareProduct
+    template_name = 'accounts/product/my_comparelist.html'
+    paginate_by = 10
+    context_object_name = 'compare_list'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = qs.filter(user=self.request.user)
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'My Compare List'
         return context

@@ -6,7 +6,7 @@ import datetime
 from django.utils.timezone import now, localtime
 import urllib.parse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .models import LeadSection, Product, Category, Brand, WishList
+from .models import LeadSection, Product, Category, Brand, WishList, CompareProduct
 from .forms import CategoryFilterForm
 from django.views import View, generic
 from accounts.mixins import AictiveUserRequiredMixin
@@ -89,7 +89,8 @@ class CategoryFilterView(View):
     def get(self, request, *args, **kwargs):
         if kwargs.get('category_id'):
             cat_id = kwargs.get('category_id')
-        if request.GET.get('search_category') and request.GET.get('search_category') != '0':
+            search_category = cat_id
+        elif request.GET.get('search_category') and request.GET.get('search_category') != '0':
             search_category = request.GET.get('search_category')
             cat_id = search_category
         else:
@@ -175,6 +176,33 @@ class RemoveWishListView(AictiveUserRequiredMixin, View):
         WishList.objects.filter(product=product_obj).delete()
         messages.success(request, 'Product Removed From Wishlist')
         return redirect('accounts:my_wishlist')
+
+
+class AddCompareView(AictiveUserRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        product_id = kwargs.get('product_id')
+        product_obj = get_object_or_404(Product, id=product_id)
+
+        check_compare = CompareProduct.objects.filter(
+            product=product_obj).first()
+
+        if not check_compare:
+            CompareProduct.objects.create(
+                user=request.user, product=product_obj)
+            messages.success(request, 'Product Added Successfully To Compare')
+        else:
+            messages.warning(request, 'Product Already In  Comparelist')
+        return redirect('accounts:my_comparelist')
+
+
+class RemoveCompareView(AictiveUserRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        product_id = kwargs.get('product_id')
+        product_obj = get_object_or_404(Product, id=product_id)
+
+        CompareProduct.objects.filter(product=product_obj).delete()
+        messages.success(request, 'Product Removed From Compare')
+        return redirect('accounts:my_comparelist')
 
 
 def data_paginator(request, product_list):

@@ -1,0 +1,112 @@
+{% extends 'base2.html' %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    {{title}}
+{% endblock title %}
+
+
+{% block content %}
+
+
+<section class="compare-block">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="table-responsive">
+                    <table class="table table-bordered text-center" id="comparetable">
+                      <tbody>
+                            <tr>
+                                <td class="table_title">Product Image</td>
+                                <td class="table_title">Product Name</td>
+                                <td class="table_title">Price</td>
+                                <td class="table_title">Rating</td>
+                                <td class="table_title">Sizes Available</td>
+                                <td class="table_title">Item Availability</td>
+                                <td class="table_title">Add To Cart</td>
+                                <td class="table_title">Action</td>
+                            </tr>
+                            {% for product in compare_list %}
+                            <tr>
+                                <td class="table_title">
+                                    {% with product.product.product_images.all|first as image %}
+                                    <img src="{{image.image.url}}">
+                                    {% endwith %}
+                                </td>
+                                <td class="table_title"><a href="#">{{product.product.title}}</a></td>
+                                <td class="table_title">
+                                    {% if product.product.discount_price %}
+                                        <span class="product-price text-dark">
+                                            <del class="text-muted">${{product.product.price}}</del> ${{product.product.discount_price}}
+                                        </span>
+                                    {% else %}
+                                        <span class="product-price text-dark">
+                                            ${{product.product.price}}
+                                        </span>
+                                    {% endif %}
+                                </td>
+                                <td class="table_title">
+                                    <div class="star-rating">
+                                        <i class="las la-star"></i>
+                                        <i class="las la-star"></i>
+                                        <i class="las la-star"></i>
+                                        <i class="las la-star"></i>
+                                        <i class="las la-star"></i>
+                                    </div>
+                                </td>
+                                <td class="table_title"><span>{{product.product.size}}</span></td>
+                                <td class="table_title"><span class="stock-in">In Stock</span></td>
+                                <td class="table_title"><button class="btn-cart btn btn-pink mx-3 btn-sm" type="button"><i class="las la-shopping-cart mr-1"></i></button></td>
+                                <td class="table_title">
+                                    <a href="{% url 'ecom:remove_compare' product.product.id %}"><i class="fa fa-times"></i></a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="8">
+                                    No Data Avialable
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock content %}
+
+
+{% block script %}
+    <script>
+        jQuery(document).ready(function($) {
+
+                var t = $('#comparetable tbody').eq(0);
+                var r = t.find('tr');
+                var cols= r.length;
+                var rows= r.eq(0).find('td').length;
+                var cell, next, tem, i = 0;
+                var tb= $('<tbody></tbody>');
+
+                while(i<rows){
+                    cell= 0;
+                    tem= $('<tr></tr>');
+                    while(cell<cols){
+                        next= r.eq(cell++).find('td').eq(0);
+                        tem.append(next);
+                    }
+                    tb.append(tem);
+                    ++i;
+                }
+                $('#comparetable').append(tb);
+                $('#comparetable').show();
+
+        })
+
+    </script>
+{% endblock script %}

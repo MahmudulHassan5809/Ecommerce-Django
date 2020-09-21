@@ -220,6 +220,7 @@ class WishList(models.Model):
     def __str__(self):
         return f"{self.user.username} added {self.product.title} to wishlist"
 
+
 class CompareProduct(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='user_comparelist')
@@ -230,4 +231,3 @@ class CompareProduct(models.Model):
 
     def __str__(self):
         return f"{self.user.username} added {self.product.title} to compare"
-
