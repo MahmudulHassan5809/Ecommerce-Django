@@ -1,15 +1,18 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
+import json
 from django.template.loader import render_to_string
 import datetime
 from django.utils.timezone import now, localtime
 import urllib.parse
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .models import LeadSection, Product, Category, Brand, WishList, CompareProduct
-from .forms import CategoryFilterForm
+from .models import LeadSection, Product, Category, Brand, WishList, CompareProduct, ProductReview
+from .forms import CategoryFilterForm, ProductReviewForm
 from django.views import View, generic
-from accounts.mixins import AictiveUserRequiredMixin
+from accounts.mixins import AictiveUserRequiredMixin, AictiveUserRequiredMixinForAjax
 from django.contrib import messages
 from django.db.models import Max, Min, Count, Sum
 # Create your views here.
@@ -161,7 +164,33 @@ class ProductDetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         context['title'] = self.object.title
+        context['review_form'] = ProductReviewForm(user=self.request.user)
         return context
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class ProductReviewView(AictiveUserRequiredMixinForAjax, View):
+    def post(self, request, *args, **kwargs):
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        rating = request.POST.get('rating')
+        review = request.POST.get('review')
+
+        product_id = kwargs.get('product_id')
+        product_obj = get_object_or_404(Product, id=product_id)
+
+        if name != '' and email != '' and rating != '' and review != '':
+            ProductReview.objects.create(
+                product=product_obj, user=request.user, review=review, rating=rating)
+            return HttpResponse(
+                json.dumps('Thnaks For Your Review'),
+                content_type="application/json"
+            )
+        else:
+            return HttpResponse(
+                json.dumps('Please Input All The Fields'),
+                content_type="application/json"
+            )
 
 
 class AddWishListView(AictiveUserRequiredMixin, View):

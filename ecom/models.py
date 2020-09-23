@@ -4,6 +4,7 @@ from smart_selects.db_fields import GroupedForeignKey
 from django.db.models import Q
 from django.urls import reverse
 from django.contrib.auth import get_user_model
+from django.core.validators import MinValueValidator, MaxValueValidator
 from datetime import datetime, timedelta
 # Create your models here.
 
@@ -150,6 +151,7 @@ class Product(models.Model):
     size = models.CharField(max_length=20, null=True, blank=True)
     discount = models.FloatField(default=0.0)
     description = models.TextField()
+    warranty = models.CharField(max_length=150)
     active = models.BooleanField(default=True)
     created_at = models.DateTimeField()
 
@@ -235,3 +237,19 @@ class CompareProduct(models.Model):
 
     def __str__(self):
         return f"{self.user.username} added {self.product.title} to compare"
+
+
+class ProductReview(models.Model):
+    product = models.ForeignKey(
+        Product, on_delete=models.CASCADE, related_name='product_reviews')
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='user_reviews')
+    review = models.TextField()
+    rating = models.IntegerField(
+        validators=[MinValueValidator(0), MaxValueValidator(5)])
+
+    class Meta:
+        verbose_name_plural = "5.Product Review"
+
+    def __str__(self):
+        return f"{self.user.username} review to {self.product.title}"

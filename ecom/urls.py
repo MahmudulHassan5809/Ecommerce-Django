@@ -29,6 +29,9 @@ urlpatterns = [
     path('add-compare/<int:product_id>/',
          views.AddCompareView.as_view(), name='add_compare'),
     path('remove-compare/<int:product_id>/',
-         views.RemoveCompareView.as_view(), name='remove_compare')
+         views.RemoveCompareView.as_view(), name='remove_compare'),
+
+    path('product/rating/<int:product_id>/',
+         views.ProductReviewView.as_view(), name='product_review')
 
 ]

@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import FileInput
 from django.forms import ModelForm
-from .models import Product, ProductImage, Brand
+from .models import Product, ProductImage, Brand, ProductReview
 
 
 SIZE_CHOICES = (
@@ -71,3 +71,33 @@ class CategoryFilterForm(forms.Form):
         label="", choices=PRICE_CHOICES, required=False)
     new_or_popular = forms.ChoiceField(
         label='', choices=NEW_POPULAR_CHOICES, required=False, widget=forms.Select(attrs={"onChange": 'submit()'}))
+
+
+class ProductReviewForm(forms.ModelForm):
+    RATING_CHOICES = (
+        ('--', 'Select Your Rating'),
+        ('1', 'Very Low'),
+        ('2', 'Low'),
+        ('3', 'Medium'),
+        ('4', 'Good'),
+        ('5', 'Very Good'),
+    )
+
+    rating = forms.TypedChoiceField(
+        choices=RATING_CHOICES, coerce=int,)
+    name = forms.CharField(label='Your name', required=True)
+    email = forms.EmailField(label='Your Email Address', required=True)
+
+    class Meta:
+        model = ProductReview
+        exclude = ('user', 'product')
+        widgets = {
+            'review': forms.Textarea(attrs={'rows': 4, 'cols': 15}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
+        super().__init__(*args, **kwargs)
+        if self.user.is_authenticated:
+            self.fields["name"].initial = self.user.username
+            self.fields["email"].initial = self.user.email

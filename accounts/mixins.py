@@ -12,3 +12,14 @@ class AictiveUserRequiredMixin:
             messages.error(
                 request, ('Please Login Or May Be Your Account Is Not Active'))
             return redirect('accounts:login')
+
+
+class AictiveUserRequiredMixinForAjax:
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated and request.user.user_profile.active and request.user.user_profile.email_confirmed:
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            return HttpResponse(
+                json.dumps('Please Login To Review Product'),
+                content_type="application/json"
+            )

@@ -93,31 +93,19 @@
                 <tbody>
                   <tr>
                     <td>Size</td>
-                    <td>Small, Medium, Large &amp; Extra Large</td>
+                    <td>
+                        {% for size in product.size %}
+                          {{size}}
+                        {% endfor %}
+                    </td>
                   </tr>
                   <tr>
-                    <td>Color</td>
-                    <td>Yellow, Red, Blue, Green &amp; Black</td>
-                  </tr>
-                  <tr>
-                    <td>Chest</td>
-                    <td>38 inches</td>
-                  </tr>
-                  <tr>
-                    <td>Waist</td>
-                    <td>20 cm</td>
-                  </tr>
-                  <tr>
-                    <td>Length</td>
-                    <td>35 cm</td>
-                  </tr>
-                  <tr>
-                    <td>Fabric</td>
-                    <td>Cotton, Silk &amp; Synthetic</td>
+                    <td>Avialability</td>
+                    <td>{{product.get_availibility_display}}</td>
                   </tr>
                   <tr>
                     <td>Warranty</td>
-                    <td>6 Months</td>
+                    <td>{{product.warranty}}</td>
                   </tr>
                 </tbody>
               </table>
@@ -187,46 +175,6 @@
                         <li class="comment_info">
                             <div class="d-flex">
                                 <div class="comment_user">
-                                    <img src="assets/images/thumbnail/member1.png" alt="user2">
-                                </div>
-                                <div class="comment_content">
-                                    <div class="d-flex">
-                                        <div class="meta_data">
-                                            <h6><a href="#">Saraha Doe</a></h6>
-                                            <div class="comment-time">March 5, 2020, 07:35 PM</div>
-                                        </div>
-                                        <div class="ml-auto">
-                                            <a href="#" class="comment-reply"><i class="las la-arrow-left"></i> Reply</a>
-                                        </div>
-                                    </div>
-                                    <p>Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus. Nulla quis lorem ut libero malesuada feugiat. Proin eget tortor risus. Donec rutrum congue leo eget malesuada. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                </div>
-                            </div>
-                            <ul class="children">
-                                <li class="comment_info">
-                                    <div class="d-flex">
-                                        <div class="comment_user">
-                                            <img src="assets/images/thumbnail/member2.png" alt="user3">
-                                        </div>
-                                        <div class="comment_content">
-                                            <div class="d-flex align-items-md-center">
-                                                <div class="meta_data">
-                                                    <h6><a href="#">Stephen Smith</a></h6>
-                                                    <div class="comment-time">April 19, 2020, 01:45 PM</div>
-                                                </div>
-                                                <div class="ml-auto">
-                                                    <a href="#" class="comment-reply"><i class="las la-arrow-left"></i> Reply</a>
-                                                </div>
-                                            </div>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus, ex, quisquam. Nulla excepturi sint iusto incidunt sed omnis expedita, commodi dolores. Debitis nemo animi quia deleniti commodi nesciunt illo.</p>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="comment_info">
-                            <div class="d-flex">
-                                <div class="comment_user">
                                     <img src="assets/images/thumbnail/member3.png" alt="user4">
                                 </div>
                                 <div class="comment_content">
@@ -244,41 +192,36 @@
                             </div>
                         </li>
                     </ul>
-          <div class="mt-8 bg-light-4 rounded p-5">
-                <div class="section-title mb-3">
-                  <h4>Add a review</h4>
-                </div>
-                <form id="contact-form" class="row" method="post" action="http://themesground.com/flipmarto/demo/html/contact.php">
-                  <div class="messages"></div>
-                  <div class="form-group col-sm-6">
-                    <input id="form_name" type="text" name="name" class="form-control" placeholder="Your Name" required data-error="Name is required.">
-                    <div class="help-block with-errors"></div>
-                  </div>
-                  <div class="form-group col-sm-6">
-                    <input id="form_email" type="email" name="email" class="form-control" placeholder="Your Email Address" required data-error="Valid email is required.">
-                    <div class="help-block with-errors"></div>
-                  </div>
-                  <div class="form-group clearfix col-12">
-                    <select class="custom-select form-control">
-                      <option value="">Rating -- Select</option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                    </select>
-                  </div>
-                  <div class="form-group col-12">
-                    <textarea id="form_message" name="message" class="form-control" placeholder="Write Your Review" rows="4" required data-error="Please,leave us a review."></textarea>
-                    <div class="help-block with-errors"></div>
-                  </div>
-                  <div class="col-12">
-                    <button class="btn btn-primary btn-animated mt-1">Post Review</button>
-                  </div>
-                </form>
+                    <div class="mt-8 bg-light-4 rounded p-5">
+                          <div class="section-title mb-3">
+                            <h4>Add a review</h4>
+                          </div>
+                          <div class="messages text-center font-weight-bold lead my-2 text-info"></div>
+                          <form id="review-form" class="row" data-review-url="{% url 'ecom:product_review' product.id %}" novalidate>
+
+                            <div class="form-group col-sm-6">
+                              {{review_form.name|as_crispy_field}}
+                            </div>
+                            <div class="form-group col-sm-6">
+                              {{review_form.email|as_crispy_field}}
+                            </div>
+                            <div class="form-group col-sm-12">
+                              {{review_form.rating|as_crispy_field}}
+                            </div>
+                            <div class="form-group col-12 m-0 p-0">
+                              <div class="form-group col-sm-12">
+                              {{review_form.review|as_crispy_field}}
+                            </div>
+                            </div>
+                            <div class="col-12">
+                              <button  class="btn btn-primary btn-animated mt-1">Post Review</button>
+                            </div>
+                          </form>
+                    </div>
+                    <div>
+
+                    </div>
               </div>
-          <div></div>
-        </div>
 
 
 
@@ -290,3 +233,25 @@
   </div>
 </section>
 {% endblock content %}
+
+
+{% block script %}
+    <script>
+        jQuery(document).ready(function($) {
+            $(document).on('submit', '#review-form',function(e){
+              e.preventDefault();
+                var url =  $("#review-form").attr("data-review-url");
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: $('form#review-form').serialize(),
+                })
+                .done(function(data) {
+                    $(".messages").text(data)
+                })
+            })
+
+
+        });
+    </script>
+{% endblock script %}
