@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth import get_user_model
 from adminsortable2.admin import SortableAdminMixin
-from .models import Category, SubCategory, Product, ProductImage, LeadSection, Brand, WishList, CompareProduct
+from .models import Category, SubCategory, Product, ProductImage, LeadSection, Brand, WishList, CompareProduct, ProductReview
 from .forms import ProductForm
 
 from django.contrib.auth.models import User
@@ -102,3 +102,6 @@ class CompareProductAdmin(admin.ModelAdmin):
 
 
 admin.site.register(CompareProduct, CompareProductAdmin)
+
+
+admin.site.register(ProductReview)
