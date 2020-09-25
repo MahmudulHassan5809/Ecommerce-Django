@@ -25,6 +25,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'accounts',
     'ecom',
+    'cart',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,6 +41,8 @@ INSTALLED_APPS = [
     'smart_selects',
     # 'debug_toolbar',
 ]
+
+CART_SESSION_ID = 'cart'
 
 LOGIN_REDIRECT_URL = '/'
 
@@ -74,6 +77,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'ecom.context_processors.categories',
+                'cart.context_processors.cart_total_amount'
             ],
         },
     },

@@ -70,7 +70,7 @@
                                 </a>
                                 <a class="btn btn-compare mr-2" data-toggle="tooltip" data-placement="top" title="WishList" type="button" href="{% url 'ecom:add_wishlist' product.id %}"><i class="lar la-heart"></i>
                                 </a>
-                                <button class="btn-cart btn btn-pink mr-2" type="button"><i class="las la-shopping-cart mr-1"></i> Add to cart </button>
+                                <a class="btn-cart btn btn-pink mr-2" type="button" href="{% url 'cart:cart_add' product.id %}"><i class="las la-shopping-cart mr-1"></i> Add to cart </a>
                             </div>
                             </div>
                           </div>

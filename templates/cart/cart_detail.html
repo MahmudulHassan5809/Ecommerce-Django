@@ -1,0 +1,70 @@
+{% extends "base2.html" %}
+{% load cart_tags %}
+
+
+{% block content %}
+
+
+<section class="bg-white">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="table-responsive">
+          <table class="cart-table table">
+            <thead>
+              <tr>
+                <th scope="col">Product</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for key,value in request.session.cart.items %}
+              <tr>
+                <td>
+                  <div class="cart-thumb media align-items-center">
+                    <a href="#">
+                      <img class="img-fluid" src="{{value.image}}" alt="">
+                    </a>
+                    <div class="media-body ml-3">
+                      <div class="product-title mb-2"><a class="link-title" href="#">{{value.name}}</a>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td> <span class="product-price text-muted">${{value.price}}</span>
+                </td>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <a href="{% url 'cart:item_decrement' value.product_id %}" class="btn-product  btn-danger"> <i class="las la-minus"></i>
+                    </a>
+                    <a href="{% url 'cart:item_increment' value.product_id %}" class="btn-product  btn-success"> <i class="las la-plus"></i>
+                    </a>
+                  </div>
+                </td>
+                <td> <span class="cart_quantity"> {{value.quantity}} x <span class="cart_amount"> <span class="price_symbole">$</span></span>{{value.price}}</span> = {{ value.price|multiply:value.quantity }}
+                  <a href="{% url 'cart:item_clear' value.product_id %}" class="close-link"><i class="las la-times"></i></a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+      <div class="col-lg-4 pl-lg-5 mt-8 mt-lg-0">
+        <div class="border rounded p-5 bg-light-4">
+          <h4 class="text-black text-left mb-2 font-w-6">Cart Totals</h4>
+
+          <div class="d-flex justify-content-between align-items-center pt-3 mb-5"> <span class="text-dark h5">Total</span>  <span class="text-dark font-w-6 h5">${{cart_total_amount}}</span>
+          </div> <a class="btn btn-primary btn-animated btn-block" href="product-checkout.html">Proceed To Checkout</a>
+          <a class="btn btn-dark btn-animated mt-3 btn-block" href="#">Continue Shopping</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{% endblock content %}
