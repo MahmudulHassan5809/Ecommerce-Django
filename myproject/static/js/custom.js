@@ -43,8 +43,29 @@ for (i = 0; i < l; i++) {
     b.appendChild(c);
   }
   x[i].appendChild(b);
-
 }
 
 
+
+  var $star_rating = $('.star-rating .fa');
+
+
+    var SetRatingStar = function() {
+        return $star_rating.each(function() {
+
+
+            if (parseInt($(this).siblings('.rating-value').val()) >= parseInt($(this).data('rating'))) {
+                  return $(this).removeClass('fa-star-o').addClass('fa-star');
+                } else {
+                  return $(this).removeClass('fa-star').addClass('fa-star-o');
+                }
+
+            });
+
+    };
+
+
+    $(document).ready(function() {
+        SetRatingStar();
+    });
 

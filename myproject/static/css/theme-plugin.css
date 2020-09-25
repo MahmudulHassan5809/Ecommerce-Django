@@ -14,7 +14,7 @@ Text Domain:  Flipmarto
   3. Line Awesome
   4. ionicons
   5. Owl Carousel
-  6. Lightslider  
+  6. Lightslider
   7. Spacing
   8. all.min
  ------------------------ */
@@ -23,6 +23,7 @@ Text Domain:  Flipmarto
 @import 'animate.css';
 @import 'line-awesome.min.css';
 @import 'ionicons.min.css';
+@import 'fontawesome-all.min.css';
 @import 'owl.carousel.css';
 @import 'lightslider.min.css';
 @import 'spacing.css';

@@ -58,7 +58,13 @@
                                         ${{product.price}}
                                     </span>
                                 {% endif %}
-                                <div class="star-rating"><i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i>
+                                <div class="star-rating">
+                                  <span class="fa fa-star" data-rating="1"></span>
+                                  <span class="fa fa-star-o" data-rating="2"></span>
+                                  <span class="fa fa-star-o" data-rating="3"></span>
+                                  <span class="fa fa-star-o" data-rating="4"></span>
+                                  <span class="fa fa-star-o" data-rating="5"></span>
+                                  <input type="hidden" class="rating-value" value="{{product.average_rating}}">
                                 </div>
                               </div>
                               <p class="mb-3 mt-2">{{product.excerpt}}</p>

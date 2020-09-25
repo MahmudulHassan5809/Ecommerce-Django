@@ -1,7 +1,8 @@
 from django.db import models
 from django.utils.text import slugify
 from smart_selects.db_fields import GroupedForeignKey
-from django.db.models import Q
+from django.db.models import Q, Avg
+
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -182,6 +183,13 @@ class Product(models.Model):
 
     def get_detail_url(self):
         return reverse('ecom:product_detail', args=[str(self.slug), str(self.id)])
+
+    def average_rating(self):
+        value = list(self.product_reviews.aggregate(Avg('rating')).values())[0]
+        if value:
+            return round(value)
+        else:
+            return 0
 
     def __str__(self):
         return self.title
