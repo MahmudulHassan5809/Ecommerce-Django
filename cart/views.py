@@ -19,6 +19,7 @@ def cart_add(request, id):
     cart = Cart(request)
     product = Product.objects.get(id=id)
     cart.add(product=product)
+    messages.success(request,'Product Added To Cart')
     return redirect("ecom:home")
 
 
