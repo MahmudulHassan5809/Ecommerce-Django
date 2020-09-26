@@ -181,6 +181,7 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse('product:edit_product', args=[str(self.id)])
 
+    @property
     def get_detail_url(self):
         return reverse('ecom:product_detail', args=[str(self.slug), str(self.id)])
 

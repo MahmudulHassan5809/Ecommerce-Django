@@ -66,7 +66,7 @@
               <div class="cart_box dropdown-menu dropdown-menu-right">
                 <ul class="cart_list">
                   {% for key,value in request.session.cart.items %}
-                  <li> <a href="{% url 'cart:item_clear' value.product_id %}" class="item_remove"><i class="ion-ios-close-empty"></i></a> <a href="#"><img src="{{value.image}}" alt="cart_thumb1'">{{value.name}}</a> <span class="cart_quantity"> {{value.quantity}} x <span class="cart_amount"> <span class="price_symbole">$</span></span>{{value.price}}</span> = {{ value.price|multiply:value.quantity }} </li>
+                  <li> <a href="{% url 'cart:item_clear' value.product_id %}" class="item_remove"><i class="ion-ios-close-empty"></i></a> <a href="{{value.url}}"><img src="{{value.image}}" alt="cart_thumb1'">{{value.name}}</a> <span class="cart_quantity"> {{value.quantity}} x <span class="cart_amount"> <span class="price_symbole">$</span></span>{{value.price}}</span> = {{ value.price|multiply:value.quantity }} </li>
                   {% endfor %}
                 </ul>
                 <div class="cart_footer">

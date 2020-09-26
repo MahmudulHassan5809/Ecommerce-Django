@@ -37,7 +37,8 @@ class Cart(object):
                 'name': product.title,
                 'quantity': 1,
                 'price': p_price,
-                'image': product_image.image.url
+                'image': product_image.image.url,
+                'url': product.get_detail_url
             }
         else:
             newItem = True
@@ -64,7 +65,8 @@ class Cart(object):
                     'name': product.title,
                     'quantity': 1,
                     'price': p_prices,
-                    'image': product_image.image.url
+                    'image': product_image.image.url,
+                    'url': product.get_detail_url
                 }
 
         self.save()
