@@ -27,8 +27,15 @@
       <div class="col-lg-6 col-12 mt-5 mt-lg-0">
         <div class="product-details">
           <h1 class="h4 mb-0 font-w-6">{{product.title}}</h1>
-          <div class="star-rating mb-4"><i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i><i class="las la-star"></i>
-          </div> {% if product.discount_price %}
+          <div class="star-rating mb-4">
+              <span class="fa fa-star" data-rating="1"></span>
+              <span class="fa fa-star-o" data-rating="2"></span>
+              <span class="fa fa-star-o" data-rating="3"></span>
+              <span class="fa fa-star-o" data-rating="4"></span>
+              <span class="fa fa-star-o" data-rating="5"></span>
+              <input type="hidden" class="rating-value" value="{{product.average_rating}}">
+            </div>
+          {% if product.discount_price %}
                 <span class="product-price text-dark">
                     <del class="text-muted">${{product.price}}</del> ${{product.discount_price}}
                 </span>
