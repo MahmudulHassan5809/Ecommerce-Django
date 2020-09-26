@@ -1,0 +1,41 @@
+{% extends "base2.html" %}
+
+{% block title %}
+    {{title}}
+{% endblock title %}
+
+{% block content %}
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-8 mb-6 mb-lg-0 order-lg-1">
+                <div class="row">
+                    {% for post in post_list %}
+                    <div class="col-12 col-lg-6 col-md-6 mt-5">
+                        <!-- Blog Card -->
+                        <div class="card border-0 bg-transparent">
+                              <div class="position-relative rounded overflow-hidden">
+                                <div class="position-absolute z-index-1 bg-white text-pink text-center py-1 px-3 my-4">{{post.created_at}}</div>
+                                <img class="card-img-top hover-zoom" src="{{post.image.url}}" alt="Image"> </div>
+                              <div class="card-body px-0 pb-0">
+
+                                <h2 class="h5 font-w-5 mt-2 mb-0"> <a class="link-title" href="{{post.get_detail_url}}">{{post.title}}</a> </h2>
+                              </div>
+                              <div></div>
+                        </div>
+                        <!-- End Blog Card -->
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-12 col-lg-4 blog-sidebar">
+                {% include 'partials/blog/_sidebar.html' %}
+            </div>
+        </div>
+
+
+        {% include 'partials/blog/_pagination.html' %}
+
+    </div>
+</section>
+{% endblock content %}

@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'accounts',
     'ecom',
     'cart',
+    'blog',
 
     'django.contrib.admin',
     'django.contrib.auth',
