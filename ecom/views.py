@@ -83,6 +83,7 @@ class CategoryView(View):
             'category_obj': category_obj,
             'products': products,
             'category_filter_form': category_filter_form,
+            'search_category': cat_id
         }
 
         return render(request, 'ecom/category_products.html', context)
@@ -113,12 +114,12 @@ class CategoryFilterView(View):
         if sub_cat and sub_cat != '0':
             products = products.subcat_filter(sub_cat)
 
-        if kwargs.get('subcat_id'):
-            subcat_id = kwargs.get('subcat_id')
+        subcat_id = kwargs.get('subcat_id')
+        if subcat_id and not sub_cat:
             products = products.subcat_filter(subcat_id)
 
-        if request.GET.get('subcat_id'):
-            subcat_id = request.GET.get('subcat_id')
+        subcat_id = request.GET.get('subcat_id')
+        if subcat_id and not sub_cat and subcat_id != '':
             products = products.subcat_filter(subcat_id)
 
         category_filter_form = CategoryFilterForm(request.GET)
