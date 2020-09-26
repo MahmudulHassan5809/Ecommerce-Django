@@ -184,12 +184,67 @@ class Product(models.Model):
     def get_detail_url(self):
         return reverse('ecom:product_detail', args=[str(self.slug), str(self.id)])
 
+    @property
     def average_rating(self):
         value = list(self.product_reviews.aggregate(Avg('rating')).values())[0]
         if value:
             return round(value)
         else:
             return 0
+
+    @property
+    def total_review(self):
+        return self.product_reviews.count()
+
+    @property
+    def five_star_percentage(self):
+        try:
+            value = 100 * \
+                float(self.product_reviews.filter(rating=5).count()) / \
+                float(self.total_review)
+            return "{:.2f}".format(value)
+        except Exception as e:
+            return "{:.2f}".format(0)
+
+    @property
+    def four_star_percentage(self):
+        try:
+            value = 100 * \
+                float(self.product_reviews.filter(rating=4).count()) / \
+                float(self.total_review)
+            return "{:.2f}".format(value)
+        except:
+            return "{:.2f}".format(0)
+
+    @property
+    def three_star_percentage(self):
+        try:
+            value = 100 * \
+                float(self.product_reviews.filter(rating=3).count()) / \
+                float(self.total_review)
+            return "{:.2f}".format(value)
+        except:
+            return "{:.2f}".format(0)
+
+    @property
+    def two_star_percentage(self):
+        try:
+            value = 100 * \
+                float(self.product_reviews.filter(rating=2).count()) / \
+                float(self.total_review)
+            return "{:.2f}".format(value)
+        except:
+            return "{:.2f}".format(0)
+
+    @property
+    def one_star_percentage(self):
+        try:
+            value = 100 * \
+                float(self.product_reviews.filter(rating=1).count()) / \
+                float(self.total_review)
+            return "{:.2f}".format(value)
+        except:
+            return "{:.2f}".format(0)
 
     def __str__(self):
         return self.title
@@ -255,6 +310,7 @@ class ProductReview(models.Model):
     review = models.TextField()
     rating = models.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(5)])
+    created_at = models.DateField(auto_now_add=True, auto_now=False)
 
     class Meta:
         verbose_name_plural = "5.Product Review"

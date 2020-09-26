@@ -12,10 +12,10 @@
                                         <div class="col-lg-12 col-md-12 pt-5">
                                             <div class="media align-items-center mb-4">
                                                 {% with product.product_images.all|first as image %}
-                                                <a class="d-block mr-3" href="product-left-image.html"> <img class="border" src="{{image.image.url}}" alt="Product" width="100"> </a>
+                                                <a class="d-block mr-3" href="{{product.get_detail_url}}"> <img class="border" src="{{image.image.url}}" alt="Product" width="100"> </a>
                                                 {% endwith %}
                                                 <div class="media-body">
-                                                    <div class="product-title"><a class="link-title" href="#">{{product.title}}</a> </div>
+                                                    <div class="product-title"><a class="link-title" href="get_detail_url">{{product.title}}</a> </div>
                                                     {% if product.discount_price %}
                                                         <span class="product-price text-dark">
                                                             <del class="text-muted">${{product.price}}</del> ${{product.discount_price}}

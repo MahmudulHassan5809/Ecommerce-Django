@@ -113,6 +113,14 @@ class CategoryFilterView(View):
         if sub_cat and sub_cat != '0':
             products = products.subcat_filter(sub_cat)
 
+        if kwargs.get('subcat_id'):
+            subcat_id = kwargs.get('subcat_id')
+            products = products.subcat_filter(subcat_id)
+
+        if request.GET.get('subcat_id'):
+            subcat_id = request.GET.get('subcat_id')
+            products = products.subcat_filter(subcat_id)
+
         category_filter_form = CategoryFilterForm(request.GET)
 
         if category_filter_form.is_valid():
@@ -147,7 +155,8 @@ class CategoryFilterView(View):
             'products': products,
             'category_filter_form': category_filter_form,
             'search_category': search_category,
-            'query': query
+            'query': query,
+            'subcat_id': subcat_id,
         }
 
         # html = render_to_string('ecom/products.html', context)
@@ -164,6 +173,8 @@ class ProductDetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         context['title'] = self.object.title
+        context['reviews'] = self.object.product_reviews.select_related(
+            'user').only('user__username', 'review', 'user__email')
         context['review_form'] = ProductReviewForm(user=self.request.user)
         return context
 
@@ -180,12 +191,20 @@ class ProductReviewView(AictiveUserRequiredMixinForAjax, View):
         product_obj = get_object_or_404(Product, id=product_id)
 
         if name != '' and email != '' and rating != '' and review != '':
-            ProductReview.objects.create(
-                product=product_obj, user=request.user, review=review, rating=rating)
-            return HttpResponse(
-                json.dumps('Thnaks For Your Review'),
-                content_type="application/json"
+            obj, created = ProductReview.objects.update_or_create(
+                product=product_obj, user=request.user,
+                defaults={'review': review, 'rating': rating},
             )
+            if created:
+                return HttpResponse(
+                    json.dumps('Thnaks For Your Review'),
+                    content_type="application/json"
+                )
+            if obj:
+                return HttpResponse(
+                    json.dumps('Your Review Is Updated'),
+                    content_type="application/json"
+                )
         else:
             return HttpResponse(
                 json.dumps('Please Input All The Fields'),

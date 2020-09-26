@@ -13,6 +13,7 @@
 <form name="filterForm" action="{% url 'ecom:category_filter' category_obj.id %}" method="GET">
 
     <input type="hidden" name="search_category" value="{{search_category}}">
+    <input type="hidden" name="subcat_id" value="{{subcat_id}}">
     <input type="hidden" name="query_text" value="{{query}}">
     <section class="bg-white">
         <div class="container">
@@ -34,12 +35,12 @@
                       <div class="row align-items-center">
                         {% for product in products %}
                         <div class="col-lg-4 col-md-5">
-                            <a class="card-img-hover d-block" href="#">
+                            <a class="card-img-hover d-block" href="{{product.get_detail_url}}">
                             {% with product.product_images.all|first as image %}
-                            <img class="card-img-top card-img-back" src="{{image.image.url}}" alt="...">
+                            <img class="card-img-top card-img-back" src="{{image.image.url}}">
                             {% endwith %}
                             {% with product.product_images.all|first as image %}
-                            <img class="card-img-top card-img-front" src="{{image.image.url}}" alt="...">
+                            <img class="card-img-top card-img-front" src="{{image.image.url}}">
                             {% endwith %}
                           </a>
                         </div>

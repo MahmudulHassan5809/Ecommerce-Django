@@ -17,6 +17,9 @@ urlpatterns = [
     path('search/product/',
          views.CategoryFilterView.as_view(), name='search_product'),
 
+    path('sub-category/product/<int:category_id>/<int:subcat_id>/',
+         views.CategoryFilterView.as_view(), name='subcategory_product'),
+
     path('product/detail/<str:product_slug>/<int:pk>/',
          views.ProductDetailView.as_view(), name='product_detail'),
 

@@ -11,21 +11,21 @@
                         <div class="item">
                             <div class="card product-card card--default">
                                 {% with product.product_images.all|first as image %}
-                                <a class="card-img-hover d-block" href="product-left-image.html">
+                                <a class="card-img-hover d-block" href="{{product.get_detail_url}}">
                                     <img class="card-img-top" src="{{image.image.url}}" alt="">
                                 </a>
                                 {% endwith %}
                                 <div class="card-icons">
                                     <div class="card-icons__item">
-                                        <a href="#" data-toggle="tooltip" data-placement="left" title="" data-original-title="Add to wishlist"> <i class="lar la-heart"></i> </a>
+                                        <a href="{% url 'ecom:add_wishlist' product.id %}" data-toggle="tooltip" data-placement="left" title="" data-original-title="Add to wishlist"> <i class="lar la-heart"></i> </a>
                                     </div>
                                     <div class="card-icons__item">
-                                        <a href="#" data-toggle="tooltip" data-placement="left" title="" data-original-title="Compare"> <i class="las la-random"></i> </a>
+                                        <a href="{% url 'ecom:add_compare' product.id %}" data-toggle="tooltip" data-placement="left" title="" data-original-title="Compare"> <i class="las la-random"></i> </a>
                                     </div>
                                 </div>
                                 <div class="card-info">
                                     <div class="card-body">
-                                        <div class="product-title font-w-4"><a class="link-title" href="product-left-image.html">{{product.title}}</a>
+                                        <div class="product-title font-w-4"><a class="link-title" href="{{product.get_detail_url}}">{{product.title}}</a>
                                         </div>
                                         <div class="mt-1">
                                             {% if product.discount_price %}
