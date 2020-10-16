@@ -10,6 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import LeadSection, Product, Category, Brand, WishList, CompareProduct, ProductReview
+from cart.models import Order
 from .forms import CategoryFilterForm, ProductReviewForm
 from django.views import View, generic
 from accounts.mixins import AictiveUserRequiredMixin, AictiveUserRequiredMixinForAjax
@@ -191,6 +192,14 @@ class ProductReviewView(AictiveUserRequiredMixinForAjax, View):
         product_id = kwargs.get('product_id')
         product_obj = get_object_or_404(Product, id=product_id)
 
+        check_order = Order.objects.filter(
+            products__id__in=[product_id], owner=request.user).first()
+
+        if not check_order:
+            return HttpResponse(
+                    json.dumps('You Have To Buy The Product First To Review'),
+                    content_type="application/json"
+                )
         if name != '' and email != '' and rating != '' and review != '':
             obj, created = ProductReview.objects.update_or_create(
                 product=product_obj, user=request.user,
@@ -206,6 +215,8 @@ class ProductReviewView(AictiveUserRequiredMixinForAjax, View):
                     json.dumps('Your Review Is Updated'),
                     content_type="application/json"
                 )
+
+
         else:
             return HttpResponse(
                 json.dumps('Please Input All The Fields'),

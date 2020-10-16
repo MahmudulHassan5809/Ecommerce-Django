@@ -89,3 +89,12 @@
 .header-5 .cart-d .cart-details {
   line-height: 1rem;
 }
+
+.payment_option [type="radio"]:checked, [type="radio"]:not(:checked){
+  opacity: 3.7;
+  pointer-events: inherit;
+}
+
+.payment_option .form-check-label {
+    width: 170px;
+}

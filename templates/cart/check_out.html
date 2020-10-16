@@ -1,0 +1,81 @@
+{% extends "base2.html" %}
+{% load crispy_forms_tags %}
+{% load cart_tags %}
+
+
+{% block title %}
+    {{title}}
+{% endblock title %}
+
+{% block content %}
+
+
+<section class="bg-white">
+  <div class="container">
+    <form action="{% url 'cart:check_out' %}" method="POST" novalidate>
+      {% csrf_token %}
+    <div class="row">
+      <div class="col-lg-8">
+
+          <div class="checkout-form box-shadow white-bg">
+          <h4 class="mb-4 font-w-6">Billing Details</h4>
+          <form class="row">
+            <div class="col-md-12">
+              {{order_form.address|as_crispy_field}}
+
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                {{order_form.city|as_crispy_field}}
+              </div>
+            </div>
+            <div class="row mx-1">
+              <div class="col-md-6">
+              {{order_form.phone_number|as_crispy_field}}
+            </div>
+            <div class="col-md-6">
+              {{order_form.zip_code|as_crispy_field}}
+            </div>
+            </div>
+          </form>
+        </div>
+
+      </div>
+      <div class="col-lg-4 pl-lg-5 mt-8 mt-lg-0">
+        <div class="border bg-light-4 p-3 p-lg-5">
+
+        <div class="mb-7">
+          <h6 class="mb-3 font-w-6">Your Order</h6>
+          <ul class="list-unstyled">
+
+            {% for key,value in request.session.cart.items %}
+              <li class="mb-3 border-bottom pb-3 d-flex"><span class="mr-auto"> {{value.quantity}} x {{value.name}} </span> <span>${{ value.price|multiply:value.quantity }}</span></li>
+            {% endfor %}
+
+            <li class="d-flex"><span class="mr-auto"><strong class="cart-total"> Total :</strong></span>  <strong class="cart-total">${{cart_total_amount}} </strong>
+            </li>
+          </ul>
+        </div>
+        <div class="cart-detail my-5">
+          <h6 class="mb-3 font-w-6">Payment Method</h6>
+          <div class="form-group payment_option">
+
+              {{order_form.payment_option|as_crispy_field}}
+
+          </div>
+
+
+
+
+
+        </div>
+        <button type="submit" class="btn btn-primary btn-animated btn-block">Proceed to Payment</button>
+        </div>
+      </div>
+    </div>
+    </form>
+  </div>
+</section>
+
+
+{% endblock content %}

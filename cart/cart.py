@@ -100,5 +100,6 @@ class Cart(object):
 
     def clear(self):
         # empty cart
+        print('ppppppppppppppp')
         self.session[settings.CART_SESSION_ID] = {}
         self.session.modified = True
