@@ -1,7 +1,7 @@
 {% load static %}
 
-<form class="form-inline my-2 my-lg-0">
-          <input class="form-control col" type="search" placeholder="Search" aria-label="Search">
+<form class="form-inline my-2 my-lg-0" method="GET" action="{% url 'blog:blog_home' %}">
+          <input class="form-control col" name="q" type="search" placeholder="Search" aria-label="Search">
           <button class="btn my-2 my-sm-0 col-auto" type="submit"><i class="las la-search"></i></button>
         </form>
         <div class="">

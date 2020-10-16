@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 import datetime
 from django.utils.timezone import now, localtime
 import urllib.parse
+from django.db.models import Q
 from .models import Category, Post
 from django.views import View, generic
 from django.contrib import messages
@@ -17,7 +18,14 @@ class BlogHomeView(generic.ListView):
 
     def get_queryset(self):
         qs = super().get_queryset()
+
         qs = qs.filter(active=True)
+
+        if self.request.GET.get('q'):
+            query = self.request.GET.get('q')
+            qs = qs.filter(Q(title__icontains=query) or
+                           Q(description__icontains=query))
+
         return qs
 
     def get_context_data(self, **kwargs):
