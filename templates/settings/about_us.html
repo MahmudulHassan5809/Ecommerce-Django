@@ -1,0 +1,25 @@
+{% extends "base2.html" %}
+
+{% block title %}
+    {{ttile}}
+{% endblock title %}
+
+{% block content %}
+<section>
+  <div class="container">
+    <div class="row align-items-center justify-content-between">
+      <div class="col-12 col-lg-6 mb-6 mb-lg-0">
+            <img src="{{about_us.image.url}}" class="img-fluid rounded shadow" >
+
+      </div>
+      <div class="col-12 col-lg-6">
+        <div class="ml-2">
+          <h2 class="font-w-5">{{about_us.title}}</h2>
+          <p>{{about_us.description}}</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+{% endblock content %}

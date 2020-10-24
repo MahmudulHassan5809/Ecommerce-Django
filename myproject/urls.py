@@ -8,7 +8,8 @@ urlpatterns = [
     path('accounts/', include('accounts.urls', namespace="accounts")),
     path('', include('ecom.urls', namespace="ecom")),
     path('cart/', include('cart.urls', namespace="cart")),
-    path('blog/', include('blog.urls', namespace="blog"))
+    path('blog/', include('blog.urls', namespace="blog")),
+    path('settings/', include('settings.urls', namespace="settings"))
 ]
 
 

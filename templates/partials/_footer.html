@@ -3,20 +3,24 @@
 <footer class="py-7 bg-dark-grey">
   <div class="container">
     <div class="row">
-      <div class="col-12 col-lg-4"> <a class="footer-logo text-white h2 mb-0" href="index.html">
-              <img class="img-fluid" src=" {% static 'images/logo3.png' %}" alt="">
+      <div class="col-12 col-lg-4"> <a class="footer-logo text-white h2 mb-0" href="{% url 'ecom:home' %}">
+              <img class="img-fluid" src="{{site_info.logo.url}}" alt="">
             </a>
-        <p class="my-3 text-muted pr-6">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec in velit a nibh ullamcorper dictum a malesuada ex. Donec sit amet volutpat nunc.</p>
+        <p class="my-3 text-muted pr-6">
+          Phone : {{site_info.site_phone}} <br>
+          Email : {{site_info.site_email}} <br>
+          Address : {{site_info.site_address}} <br>
+        </p>
         <ul class="list-inline mb-0">
-          <li class="list-inline-item"><a class="text-muted ic-2x" href="#"><i class="la la-facebook"></i></a>
+          <li class="list-inline-item"><a class="text-muted ic-2x" href="javascript:void(0)"><i class="la la-facebook"></i></a>
           </li>
-          <li class="list-inline-item"><a class="text-muted ic-2x" href="#"><i class="la la-dribbble"></i></a>
+          <li class="list-inline-item"><a class="text-muted ic-2x" href="javascript:void(0)"><i class="la la-dribbble"></i></a>
           </li>
-          <li class="list-inline-item"><a class="text-muted ic-2x" href="#"><i class="la la-instagram"></i></a>
+          <li class="list-inline-item"><a class="text-muted ic-2x" href="javascript:void(0)"><i class="la la-instagram"></i></a>
           </li>
-          <li class="list-inline-item"><a class="text-muted ic-2x" href="#"><i class="la la-twitter"></i></a>
+          <li class="list-inline-item"><a class="text-muted ic-2x" href="javascript:void(0)"><i class="la la-twitter"></i></a>
           </li>
-          <li class="list-inline-item"><a class="text-muted ic-2x" href="#"><i class="la la-linkedin"></i></a>
+          <li class="list-inline-item"><a class="text-muted ic-2x" href="javascript:void(0)"><i class="la la-linkedin"></i></a>
           </li>
         </ul>
       </div>
@@ -81,32 +85,9 @@
 
     <hr class="my-6 light-border">
     <div class="row text-muted align-items-center">
-      <div class="col-md-7 font-w-4"><small>Copyright ©2020 themesground. All Rights Reserved.</small>
+      <div class="col-md-7 font-w-4"><small>Copyright ©2020 CodeHub. All Rights Reserved.</small>
       </div>
-      <div class="col-md-5 text-md-right mt-3 mt-md-0">
-        <ul class="list-inline mb-0">
-          <li class="list-inline-item">
-            <a href="#">
-              <img class="img-fluid" src=" {% static 'images/pay-icon/01.png' %}" alt="">
-            </a>
-          </li>
-          <li class="list-inline-item">
-            <a href="#">
-              <img class="img-fluid" src=" {% static 'images/pay-icon/02.png' %}" alt="">
-            </a>
-          </li>
-          <li class="list-inline-item">
-            <a href="#">
-              <img class="img-fluid" src=" {% static 'images/pay-icon/03.png' %}" alt="">
-            </a>
-          </li>
-          <li class="list-inline-item">
-            <a href="#">
-              <img class="img-fluid" src=" {% static 'images/pay-icon/04.png' %}" alt="">
-            </a>
-          </li>
-        </ul>
-      </div>
+
     </div>
   </div>
 </footer>

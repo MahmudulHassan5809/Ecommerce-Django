@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'ecom',
     'cart',
     'blog',
+    'settings',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -78,7 +79,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'ecom.context_processors.categories',
-                'cart.context_processors.cart_total_amount'
+                'cart.context_processors.cart_total_amount',
+                'settings.context_processors.site_info'
             ],
         },
     },

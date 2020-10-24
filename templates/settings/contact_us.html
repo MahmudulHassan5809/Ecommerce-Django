@@ -1,0 +1,33 @@
+{% extends "base2.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}
+    {{title}}
+{% endblock title %}
+
+{% block content %}
+<section class="bg-white">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-8 col-md-8 col-sm-11">
+        <div class="shadow p-6 login bg-white">
+
+          <h4 class="text-left mb-3 font-w-5">{{title}}</h4>
+          <form method="POST" action="{% url 'settings:contact_us' %}" novalidate>
+            {% csrf_token %}
+            {{form|crispy}}
+
+            <input type="submit" class="btn btn-primary btn-block" value="Send Message">
+
+
+
+          </form>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}

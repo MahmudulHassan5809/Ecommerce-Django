@@ -15,6 +15,7 @@ from .forms import CategoryFilterForm, ProductReviewForm
 from django.views import View, generic
 from accounts.mixins import AictiveUserRequiredMixin, AictiveUserRequiredMixinForAjax
 from django.contrib import messages
+from settings.models import Banner, SiteAd
 from django.db.models import Max, Min, Count, Sum
 # Create your views here.
 
@@ -51,6 +52,9 @@ class HomeView(View):
         today_products = Product.objects.select_related(
             'category', 'sub_category').prefetch_related('product_images').filter(active=True, created_at__gt=today)
 
+        banner_list = Banner.objects.filter(active=True)
+        ad_list = SiteAd.objects.filter(active=True)
+
         context = {
             'title': 'Home',
             'first_lead': first_lead,
@@ -59,7 +63,9 @@ class HomeView(View):
             'second_lead_product': second_lead_product,
             'third_lead': third_lead,
             'third_lead_product': third_lead_product,
-            'today_products': today_products
+            'today_products': today_products,
+            'banner_list': banner_list,
+            'ad_list': ad_list
         }
         return render(request, 'ecom/home.html', context)
 
@@ -197,9 +203,9 @@ class ProductReviewView(AictiveUserRequiredMixinForAjax, View):
 
         if not check_order:
             return HttpResponse(
-                    json.dumps('You Have To Buy The Product First To Review'),
-                    content_type="application/json"
-                )
+                json.dumps('You Have To Buy The Product First To Review'),
+                content_type="application/json"
+            )
         if name != '' and email != '' and rating != '' and review != '':
             obj, created = ProductReview.objects.update_or_create(
                 product=product_obj, user=request.user,
@@ -215,7 +221,6 @@ class ProductReviewView(AictiveUserRequiredMixinForAjax, View):
                     json.dumps('Your Review Is Updated'),
                     content_type="application/json"
                 )
-
 
         else:
             return HttpResponse(
